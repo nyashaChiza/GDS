@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #apps
     'stock',
+    'transactions',
     
     #3rd part apps
     'allauth',
