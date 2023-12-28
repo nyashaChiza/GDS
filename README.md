@@ -1,4 +1,4 @@
-# GDS
+
 # Gas Dispensary Management System
 
 The Gas Dispensary Management System is a web application developed using Django. It provides a comprehensive solution for managing gas inventory, tracking customer transactions, forecasting sales, and facilitating communication within the dispensary.
