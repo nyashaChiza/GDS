@@ -7,4 +7,5 @@ urlpatterns = [
     path('__debug__/', include("debug_toolbar.urls")),
     path('accounts/', include('allauth.urls')),
     path('stock/', include('stock.urls')),
+    path('transactions/', include('transactions.urls')),
 ]
