@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+__pycache__/
 # Distribution / packaging
 .Python
 build/
@@ -27,6 +27,7 @@ share/python-wheels/
 MANIFEST
 media/
 *.pyc
+.env
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
