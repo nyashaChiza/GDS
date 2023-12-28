@@ -11,6 +11,7 @@ Django==5.0
 django-crispy-forms==2.0
 crispy-bootstrap5==0.7
 django-debug-toolbar==4.2.0
+django-allauth==0.59.0
 executing==2.0.1
 greenlet==3.0.3
 idna==3.6
