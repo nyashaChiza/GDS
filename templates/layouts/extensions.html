@@ -1,3 +1,5 @@
+{% load static %}
+
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart">
     <div class="offcanvas-header border-bottom h-70">
       <h5 class="mb-0" id="offcanvasRightLabel">8 New Orders</h5>
@@ -129,7 +131,7 @@
 
   <div class="offcanvas offcanvas-start w-260" data-bs-scroll="true" tabindex="-1" id="offcanvasPrimaryMenu">
     <div class="offcanvas-header border-bottom h-70">
-      <img src="assets/images/logo1.png" width="160" alt="">
+      <img src="{% static 'assets/images/logo1.png' %}" width="160" alt="">
       <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="offcanvas">
         <i class="material-icons-outlined">close</i>
       </a>

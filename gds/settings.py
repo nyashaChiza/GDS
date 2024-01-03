@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     #apps
     'stock',
     'transactions',
+    'dashboard',
     
     #3rd part apps
     'allauth',
