@@ -1,0 +1,72 @@
+
+
+[data-bs-theme=semi-dark] body {
+
+  @mixin sidelinks {
+
+    color: #dee2e6;
+
+    &:hover,
+    &:focus {
+      color: #ffffff;
+      background-color: #383c40;
+    }
+
+  }
+
+  .top-header { 
+    .navbar {
+         border-bottom: 1px solid #dee2e6;
+         box-shadow: none;
+         background-color: #eff1f3;
+
+         .btn-toggle {
+          a {
+            &:hover,
+            &:focus {
+              color: #383c40;
+              background-color: #f9f9f9;
+            }
+          }
+        }
+        .nav-right-links {
+          .nav-link {
+            &:hover,
+            &:focus {
+              color: #383c40;
+              background-color: #f9f9f9;
+            } 
+          }
+        }
+    }
+  }
+
+   .mini-sidebar {
+    background-color: #212529;
+
+    .user {
+      background-color: #212529;
+      .user-icon {
+        @include sidelinks()
+      }
+    }
+
+    .quick-menu {
+      .nav-link {
+        @include sidelinks()
+       }
+     }
+  
+    .mini-footer {
+      background-color: #212529;
+      .footer-icon {
+        @include sidelinks()
+      }
+  
+    }
+  
+  }
+
+
+
+}

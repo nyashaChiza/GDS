@@ -1,0 +1,43 @@
+[data-bs-theme=semi-dark] body .top-header .navbar {
+  border-bottom: 1px solid #dee2e6;
+  box-shadow: none;
+  background-color: #eff1f3;
+}
+[data-bs-theme=semi-dark] body .top-header .navbar .btn-toggle a:hover, [data-bs-theme=semi-dark] body .top-header .navbar .btn-toggle a:focus {
+  color: #383c40;
+  background-color: #f9f9f9;
+}
+[data-bs-theme=semi-dark] body .top-header .navbar .nav-right-links .nav-link:hover, [data-bs-theme=semi-dark] body .top-header .navbar .nav-right-links .nav-link:focus {
+  color: #383c40;
+  background-color: #f9f9f9;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar {
+  background-color: #212529;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .user {
+  background-color: #212529;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .user .user-icon {
+  color: #dee2e6;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .user .user-icon:hover, [data-bs-theme=semi-dark] body .mini-sidebar .user .user-icon:focus {
+  color: #ffffff;
+  background-color: #383c40;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .quick-menu .nav-link {
+  color: #dee2e6;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .quick-menu .nav-link:hover, [data-bs-theme=semi-dark] body .mini-sidebar .quick-menu .nav-link:focus {
+  color: #ffffff;
+  background-color: #383c40;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .mini-footer {
+  background-color: #212529;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .mini-footer .footer-icon {
+  color: #dee2e6;
+}
+[data-bs-theme=semi-dark] body .mini-sidebar .mini-footer .footer-icon:hover, [data-bs-theme=semi-dark] body .mini-sidebar .mini-footer .footer-icon:focus {
+  color: #ffffff;
+  background-color: #383c40;
+}/*# sourceMappingURL=semi-dark.css.map */

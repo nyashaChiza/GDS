@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GD System</title>
+  <!--favicon-->
+  <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png">
+  {% include 'layouts/styles.html'%}
+</head>
+<body>
+    {% include 'layouts/header.html'%}
+    {% include 'layouts/sidebar.html'%}
+  <!--start main wrapper-->
+  <main class="main-wrapper">
+    <div class="main-content">
+        {% block body %}
+
+        {% endblock %}
+    </div>
+</main>
+
+{% include 'layouts/footer.html'%}
+{% include 'layouts/extensions.html'%}
+
+</body>
+</html>
