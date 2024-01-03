@@ -935,7 +935,7 @@ form select.error:focus {
 }
 
 .bg-error {
-  background-image: url("../assets/images/auth/error-bg.png");
+
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
@@ -984,23 +984,23 @@ form select.error:focus {
 }
 
 /* authentication */
-.bg-login, .bg-reset-password, .bg-forgot-password, .bg-register {
-  background-image: url(../assets/images/auth/bg-login.png);
+.bg-login, .reset-password1, .bg-forgot-password, .bg-register {
+  background-image: url(../assets/images/auth/login1.png);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .bg-register {
-  background-image: url(../assets/images/auth/bg-register.png);
+  background-image: url(../assets/images/auth/register1.png);
 }
 
 .bg-forgot-password {
-  background-image: url(../assets/images/auth/bg-forgot.png);
+  background-image: url(../assets/images/auth/reset-password1.png);
 }
 
-.bg-reset-password {
-  background-image: url(../assets/images/auth/bg-reset-password.png);
+.reset-password1 {
+  background-image: url(../assets/images/auth/reset-password1.png);
 }
 
 /* switcher */
