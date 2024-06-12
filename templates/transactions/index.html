@@ -75,7 +75,7 @@
                         <div class="nk-tb-item">
                             <div class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="oid02">
+                                    <input type="checkbox" class="custom-control-input" id="oid02{{ sale.pk }}">
                                     <label class="custom-control-label" for="oid02"></label>
                                 </div>
                             </div>
@@ -103,18 +103,14 @@
                             </div>
                             <div class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
-                                    <li class="nk-tb-action-hidden"><a href="#" class="btn btn-icon btn-trigger btn-tooltip eg-swal-success" aria-label="Mark as Paid" data-bs-original-title="Mark as Paid">
-                                        <em class="icon ni ni-check-circle-cut"></em></a></li>
-                                    <li class="nk-tb-action-hidden"><a href="#" class="btn btn-icon btn-trigger btn-tooltip" aria-label="View Sale" data-bs-original-title="View Sale">
-                                            <em class="icon ni ni-eye"></em></a></li>
-                                    <li>
-                                    </li><li>
+                                    
+                                  
                                         <div class="drodown me-n1">
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
                                                     <li><a href="#"><em class="icon ni ni-eye"></em><span>View Sale</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-check-circle-cut"></em><span>Mark as Paid</span></a></li>
+                                                    <li data-bs-toggle="modal" data-bs-target="#markAsPaidModal{{ sale.pk }}"><a ><em class="icon ni ni-check-circle-cut" ></em><span>Mark as Paid</span></a></li>
                                                     <li><a href="#"><em class="icon ni ni-pen2"></em><span>Update Sale</span></a></li>
                                                     <li><a class="text-danger" href="#"><em class="icon ni ni-trash"></em><span>Remove Sale</span></a></li>
                                                 </ul>
@@ -124,6 +120,30 @@
                                 </ul>
                             </div>
                         </div><!-- .nk-tb-item -->
+                            <!-- Modal Alert -->
+    <div class="modal fade" tabindex="-1" id="markAsPaidModal{{ sale.pk }}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                <div class="modal-body modal-body-lg text-center">
+                    <div class="nk-modal">
+                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                        <h4 class="nk-modal-title">Confirmation!</h4>
+                        <div class="nk-modal-text">
+                            <div class="caption-text">Are you sure you want to mark this sale as <strong>Paid</strong></div>
+                           </div>
+                        <div class="nk-modal-action">
+                            <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Cancel</a>
+                            <a href="{% url 'mark_sale_as_paid' sale.pk %}" class="btn btn-lg btn-mw btn-success" >Proceed</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+                <div class="modal-footer bg-lighter">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
                         {% endfor %}
                               </div><!-- .nk-tb-list -->
                     <div class="card">

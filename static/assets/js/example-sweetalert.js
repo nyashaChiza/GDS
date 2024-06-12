@@ -13,7 +13,7 @@
     e.preventDefault();
   });
   $('.eg-swal-success').on("click", function (e) {
-    Swal.fire("Good job!", "You clicked the button!", "success");
+    Swal.fire("Good job!", "Sale Marked As Paid!", "success");
     e.preventDefault();
   });
   $('.eg-swal-info').on("click", function (e) {
