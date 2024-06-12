@@ -1,6 +1,8 @@
 
 {% extends 'layouts/base.html' %}
 {% load custom_tags %}
+{% load crispy_forms_tags %}
+
 {% load static %}
 
 {% block body %}
@@ -40,7 +42,7 @@
                                         </li>
                                         <li class="nk-block-tools-opt">
                                             <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                            <a href="#" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Sale</span></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addSaleModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Sale</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -147,5 +149,36 @@
         </div>
     </div>
 </div>
+
+<!-- Add Sale modal -->
+<div class="modal fade" id="addSaleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Sale</h5>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'transaction_create' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row g-4">
+                        {{ add_sale_form }}
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-lg btn-primary" value="save">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <span class="sub-text">Endframe</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./Add Sale modal -->
 
 {% endblock %}

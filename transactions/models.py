@@ -3,8 +3,10 @@ from django.db import models
 
 class Transaction(models.Model):
     STATUS_CHOICES = (('Pending', 'Pending'),('Paid', 'Paid'))
+    
     customer = models.CharField(max_length=100, blank=True, null=True)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    unit_cost = models.DecimalField(max_digits=10, decimal_places=2, default=1.00)  # type: ignore
     product = models.ForeignKey('stock.Gas', on_delete=models.CASCADE, related_name='transaction' )
     status = models.CharField(max_length=32, default="Pending", choices = STATUS_CHOICES)
     created = models.DateTimeField(auto_now_add=True)
