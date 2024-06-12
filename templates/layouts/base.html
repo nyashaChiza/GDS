@@ -1,30 +1,51 @@
 {% load static %}
-
-<!doctype html>
-<html lang="en" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="zxx" class="js">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GD System</title>
-  <!--favicon-->
-  <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png">
-  {% include 'layouts/styles.html'%}
+    <base href="../">
+    <meta charset="utf-8">
+    <meta name="author" content="Nyasha Chizampeni">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A sales application">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href='{% static "images/favicon.png" %}'>
+    <!-- Page Title  -->
+    <title>GDS</title>
+    <!-- StyleSheets  -->
+    {% include "layouts/styles.html" %}
 </head>
-<body>
-    {% include 'layouts/header.html'%}
-    {% include 'layouts/sidebar.html'%}
-  <!--start main wrapper-->
-  <main class="main-wrapper">
-    <div class="main-content">
-        {% block body %}
 
-        {% endblock %}
+<body class="nk-body bg-lighter npc-general has-sidebar ">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- sidebar @s -->
+            {% include "layouts/sidebar.html" %}
+            <!-- sidebar @e -->
+            <!-- wrap @s -->
+            <div class="nk-wrap ">
+                <!-- main header @s -->
+                {% include "layouts/header.html" %}
+                <!-- main header @e -->
+                <!-- content @s -->
+                {% block body %}
+                {% endblock %}
+                <!-- content @e -->
+                <!-- footer @s -->
+                {% include "layouts/footer.html" %}
+                <!-- footer @e -->
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- main @e -->
     </div>
-</main>
+    <!-- app-root @e -->
+    <!-- select region modal -->
 
-{% include 'layouts/footer.html'%}
-{% include 'layouts/extensions.html'%}
-
+    <!-- JavaScript -->
+     {% include "layouts/scripts.html" %}
+    
 </body>
+
 </html>
