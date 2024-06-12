@@ -1,5 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load custom_tags %}
+
 
 {% block body %}
 <div class="nk-content ">
@@ -26,13 +28,13 @@
                                             
                                         </div>
                                         <div class="data">
-                                            <div class="amount">${{ dashboard_data.get_sales_data.current_month_total_sales }}</div>
-                                            <div class="info"><strong>${{ dashboard_data.get_sales_data.last_month_total_sales }}</strong> in last month</div>
+                                            <div class="amount">${{ dashboard_data.get_sales_data.current_month_total_sales|format_amount }}</div>
+                                            <div class="info"><strong>${{ dashboard_data.get_sales_data.last_month_total_sales|format_amount }}</strong> in last month</div>
                                         </div>
                                         <div class="data">
                                             <h6 class="sub-title">This week so far</h6>
                                             <div class="data-group">
-                                                <div class="amount">${{ dashboard_data.get_sales_data.week_total_sales }}</div>
+                                                <div class="amount">${{ dashboard_data.get_sales_data.week_total_sales|format_amount  }}</div>
 
                                                 </div>
                                         </div>
@@ -84,7 +86,7 @@
                                                 </div>
                                                 <div class="data">
                                                     <div class="data-group">
-                                                        <div class="amount">${{ dashboard_data.get_sales_data.total_sales_today }}</div>
+                                                        <div class="amount">${{ dashboard_data.get_sales_data.total_sales_today|format_amount  }}</div>
                                                          </div>
                                                 </div>
                                             </div><!-- .card-inner -->
@@ -137,7 +139,7 @@
                                     {% for data in dashboard_data.get_stock_sales_table_data %}
                                     <div class="nk-tb-item">
                                         <div class="nk-tb-col">
-                                            <span class="tb-lead"><a href="#">#{{ data.order_number }}</a></span>
+                                            <span class="tb-lead"><a href="#">#{{ data.get_order_number }}</a></span>
                                         </div>
                                         <div class="nk-tb-col tb-col-sm">
                                             <div class="user-card">
@@ -151,10 +153,10 @@
                                             <span class="tb-sub">{{ data.created }}</span>
                                         </div>
                                         <div class="nk-tb-col">
-                                            <span class="tb-sub tb-amount">{{ data.total_cost }} <span>USD</span></span>
+                                            <span class="tb-sub tb-amount">{{ data.total_cost|format_amount  }} <span>USD</span></span>
                                         </div>
                                         <div class="nk-tb-col">
-                                            <span class="badge badge-dot badge-dot-xs bg-success">{{ data.status }}</span>
+                                            <span class="badge badge-dot badge-dot-xs bg-{% if data.status == 'Paid' %}success{% else %}warning{% endif %}">{{ data.status }}</span>
                                         </div>
                                     </div>
                                     {% endfor %}
@@ -178,14 +180,14 @@
                                         <li class="item">
                                             <div class="info">
                                                 <div class="title">Sales</div>
-                                                <div class="count">${{ dashboard_data.get_sales_data.total_sales }}</div>
+                                                <div class="count">${{ dashboard_data.get_sales_data.total_sales|format_amount  }}</div>
                                             </div>
                                             <em class="icon bg-primary-dim ni ni-money"></em>
                                         </li>
                                         <li class="item">
                                             <div class="info">
                                                 <div class="title">Quantity Moved</div>
-                                                <div class="count">{{ dashboard_data.get_stock_data.total_gas_quantity_sold }}kg</div>
+                                                <div class="count">{{ dashboard_data.get_stock_data.total_gas_quantity_sold  }}kg</div>
                                             </div>
                                             <em class="icon bg-purple-dim ni ni-unarchive"></em>
                                         </li>
@@ -211,23 +213,23 @@
                                                 <h6 class="title">Sales</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <em class="card-hint icon ni ni-help" data-bs-toggle="tooltip" data-bs-placement="left" title="Users of this month"></em>
+                                                <em class="card-hint icon ni ni-help" data-bs-toggle="tooltip" data-bs-placement="left" title="Total Sales"></em>
                                             </div>
                                         </div>
                                         <div class="data-group">
                                             <div class="data">
                                                 <div class="title">Monthly</div>
-                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.monthly_average }}</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.monthly_average|format_amount  }}</div>
                                                
                                             </div>
                                             <div class="data">
                                                 <div class="title">Weekly</div>
-                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.weekly_average }}</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.weekly_average|format_amount  }}</div>
                                                 
                                             </div>
                                             <div class="data">
                                                 <div class="title">Daily (Avg)</div>
-                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.daily_average }}</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.daily_average|format_amount  }}</div>
                                                
                                             </div>
                                         </div>

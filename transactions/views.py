@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 class TransactionListView(ListView):
     model = Transaction
     template_name = 'transactions/index.html'
-    context_object_name = 'transactions'
+    context_object_name = 'sales'
 
 class TransactionCreateView(CreateView):
     model = Transaction

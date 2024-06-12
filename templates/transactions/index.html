@@ -1,5 +1,6 @@
 
 {% extends 'layouts/base.html' %}
+{% load custom_tags %}
 {% load static %}
 
 {% block body %}
@@ -10,7 +11,7 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Sales</h3>
+                            <h3 class="nk-block-title page-title">Stock Sales</h3>
                         </div><!-- .nk-block-head-content -->
                         <div class="nk-block-head-content">
                             <div class="toggle-wrap nk-block-tools-toggle">
@@ -22,7 +23,7 @@
                                                 <div class="form-icon form-icon-right">
                                                     <em class="icon ni ni-search"></em>
                                                 </div>
-                                                <input type="text" class="form-control" id="default-04" placeholder="Quick search by id">
+                                                <input type="text" class="form-control" id="default-04" placeholder="Quick search by Order">
                                             </div>
                                         </li>
                                         <li>
@@ -30,16 +31,16 @@
                                                 <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-bs-toggle="dropdown">Status</a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
-                                                        <li><a href="#"><span>On Hold</span></a></li>
-                                                        <li><a href="#"><span>Delevired</span></a></li>
-                                                        <li><a href="#"><span>Rejected</span></a></li>
+                                                       
+                                                        <li><a href="#"><span>Pending</span></a></li>
+                                                        <li><a href="#"><span>Paid</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </li>
                                         <li class="nk-block-tools-opt">
                                             <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                            <a href="#" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Order</span></a>
+                                            <a href="#" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Sale</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -61,27 +62,14 @@
                             <div class="nk-tb-col"><span class="d-none d-sm-block">Status</span></div>
                             <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
                             <div class="nk-tb-col tb-col-md"><span>Purchased</span></div>
+                            <div class="nk-tb-col"><span>Quantity</span></div>
                             <div class="nk-tb-col"><span>Total</span></div>
                             <div class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1 my-n1">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-edit"></em><span>Update Status</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-truck"></em><span>Mark as Delivered</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-money"></em><span>Mark as Paid</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-report-profit"></em><span>Send Invoice</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove Orders</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                
                             </div>
                         </div><!-- .nk-tb-item -->
                         <!-- .nk-tb-item -->
+                         {% for sale in sales %}
                         <div class="nk-tb-item">
                             <div class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -90,29 +78,32 @@
                                 </div>
                             </div>
                             <div class="nk-tb-col">
-                                <span class="tb-lead"><a href="#">#95961</a></span>
+                                <span class="tb-lead"><a href="#">#{{ sale.get_order_number }}</a></span>
                             </div>
                             <div class="nk-tb-col tb-col-md">
-                                <span class="tb-sub">Jun 3, 2020</span>
+                                <span class="tb-sub">{{ sale.created }}</span>
                             </div>
                             <div class="nk-tb-col">
                                 <span class="dot bg-success d-sm-none"></span>
-                                <span class="badge badge-sm badge-dot has-bg bg-success d-none d-sm-inline-flex">Delivered</span>
+                                <span class="badge badge-sm badge-dot has-bg bg-{% if sale.status == 'Paid' %}success{% else %}warning{% endif %} d-none d-sm-inline-flex">{{ sale.status }}</span>
                             </div>
                             <div class="nk-tb-col tb-col-sm">
-                                <span class="tb-sub">Jean Douglas</span>
+                                <span class="tb-sub">{{ sale.customer }}</span>
                             </div>
                             <div class="nk-tb-col tb-col-md">
-                                <span class="tb-sub text-primary">Pink Fitness Tracker</span>
+                                <span class="tb-sub text-primary">{{ sale.product }}</span>
                             </div>
                             <div class="nk-tb-col">
-                                <span class="tb-lead">$ 99.49</span>
+                                <span class="tb-lead">{{ sale.quantity }}kg</span>
+                            </div>
+                            <div class="nk-tb-col">
+                                <span class="tb-lead">$ {{ sale.total_cost|format_amount }}</span>
                             </div>
                             <div class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
-                                    <li class="nk-tb-action-hidden"><a href="#" class="btn btn-icon btn-trigger btn-tooltip" aria-label="Mark as Delivered" data-bs-original-title="Mark as Delivered">
-                                            <em class="icon ni ni-truck"></em></a></li>
-                                    <li class="nk-tb-action-hidden"><a href="#" class="btn btn-icon btn-trigger btn-tooltip" aria-label="View Order" data-bs-original-title="View Order">
+                                    <li class="nk-tb-action-hidden"><a href="#" class="btn btn-icon btn-trigger btn-tooltip eg-swal-success" aria-label="Mark as Paid" data-bs-original-title="Mark as Paid">
+                                        <em class="icon ni ni-check-circle-cut"></em></a></li>
+                                    <li class="nk-tb-action-hidden"><a href="#" class="btn btn-icon btn-trigger btn-tooltip" aria-label="View Sale" data-bs-original-title="View Sale">
                                             <em class="icon ni ni-eye"></em></a></li>
                                     <li>
                                     </li><li>
@@ -120,11 +111,10 @@
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>Order Details</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-truck"></em><span>Mark as Delivered</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-money"></em><span>Mark as Paid</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-report-profit"></em><span>Send Invoice</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove Order</span></a></li>
+                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>View Sale</span></a></li>
+                                                    <li><a href="#"><em class="icon ni ni-check-circle-cut"></em><span>Mark as Paid</span></a></li>
+                                                    <li><a href="#"><em class="icon ni ni-pen2"></em><span>Update Sale</span></a></li>
+                                                    <li><a class="text-danger" href="#"><em class="icon ni ni-trash"></em><span>Remove Sale</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -132,6 +122,7 @@
                                 </ul>
                             </div>
                         </div><!-- .nk-tb-item -->
+                        {% endfor %}
                               </div><!-- .nk-tb-list -->
                     <div class="card">
                         <div class="card-inner">
