@@ -1,12 +1,14 @@
 from django.contrib import messages
 from django.conf import settings
 from django.shortcuts import redirect
-from django.views.generic import ListView,UpdateView, DeleteView
+from django.views.generic import ListView,UpdateView, DetailView
 from django.views import View
 from transactions.forms import TransactionForm
 from .models import Transaction
 from stock.models import Gas
 from django.urls import reverse, reverse_lazy
+from dashboard.helpers import DashboardData
+from datetime import datetime
 
 class TransactionListView(ListView):
     model = Transaction
@@ -16,6 +18,16 @@ class TransactionListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
+        return context
+    
+class TransactionDetailView(DetailView):
+    model = Transaction
+    template_name = 'transactions/details.html'
+    context_object_name = 'sale'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_gas_quantity')
         return context
 
 class TransactionCreateView(View):
@@ -27,7 +39,7 @@ class TransactionCreateView(View):
         else:
             messages.warning(request, "An Error Occurred, Please Try Again") # type: ignore
             settings.LOGGER.error(form.errors)
-        return reverse('transaction_list')
+        return redirect(reverse('transaction_list'))
     
 class TransactionUpdateStatusView(View):
        def get(self, request, pk):
@@ -46,10 +58,26 @@ class TransactionUpdateStatusView(View):
 class TransactionUpdateView(UpdateView):
     model = Transaction
     template_name = 'transactions/update.html'
-    fields = ['date', 'product', 'quantity', 'unit_cost']
+    form_class = TransactionForm
+    context_object_name = 'sale'
     success_url = reverse_lazy('transaction_list')
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_gas_quantity')
+        return context
 
-class TransactionDeleteView(DeleteView):
-    model = Transaction
-    template_name = 'transactions/delete.html'
-    success_url = reverse_lazy('transaction_list')
+class TransactionDeleteView(View):
+       def get(self, request, pk):
+        transaction = Transaction.objects.filter(pk=pk).first()
+    
+        if transaction:
+           transaction.status = 'Deleted'
+           transaction.delete()
+           messages.success(request, "Sale Deleted Successfully") # type: ignore
+           
+        else:
+            messages.warning(request, "An Error Occurred, Please Try Again") # type: ignore
+        
+        return redirect(reverse('transaction_list'))

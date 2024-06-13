@@ -12,19 +12,47 @@
         <div class="card h-100">
             <div class="card-inner">
                 <div class="card-head">
-                    <h5 class="card-title">Sale Info</h5>
+                    <h5 class="card-title">Sale Info {{ sale.get_order_number }}</h5>
                 </div>
-                <form action="{% url 'transaction_update' sale.pk %}" method="post">
-                    {% csrf_token %}
-                    <div class="row g-4">
-                        {{ form }}
-                        <div class="col-12">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-primary" value="save">Update</button>
-                            </div>
+                <ul class="nk-store-statistics">
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Product</div>
+                            <div class="count">${{ sale.product }}</div>
                         </div>
-                    </div>
-                </form>
+                        <em class="icon bg-primary-dim ni ni-bag"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Quantity</div>
+                            <div class="count">{{ sale.quantity  }}kg</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-unarchive"></em>
+                    </li>
+                    
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Customer</div>
+                            <div class="count">{{ sale.customer }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-user"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Created On</div>
+                            <div class="count">{{ sale.created }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-clock"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Total Cost</div>
+                            <div class="count text-success">${{ sale.total_cost|format_amount }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-money"></em>
+                    </li>
+                     
+                </ul>
             </div>
         </div>
     </div>

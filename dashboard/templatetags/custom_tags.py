@@ -1,5 +1,6 @@
 from django import template
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 
 register = template.Library()
@@ -14,3 +15,8 @@ def format_amount(value):
     except Exception as e:
         settings.LOGGER.error(e)
         return 0.00
+    
+@register.filter
+def has_role(user, role):
+    group = Group.objects.filter(name=role).first()
+    return group in user.groups.all() 
