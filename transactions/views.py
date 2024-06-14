@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.conf import settings
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView,UpdateView, DetailView
 from django.views import View
@@ -20,15 +21,40 @@ class TransactionListView(ListView):
         context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
         return context
     
+class TransactionSearchView(ListView):
+    model = Transaction
+    template_name = 'transactions/search.html'
+    context_object_name = 'sales'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
+        context["search_results"] = [sale for sale in self.get_queryset() if sale.get_order_number() == self.request.GET.get("order_number")] 
+        context["search_results_count"] = len(context["search_results"])
+        return context
+    
+class TransactionStatusFilterView(ListView):
+    model = Transaction
+    template_name = 'transactions/search.html'
+    context_object_name = 'sales'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
+        context["search_results"] = [sale for sale in self.get_queryset() if sale.status == self.request.GET.get("status")] 
+        context["search_results_count"] = len(context["search_results"])
+        return context
+
 class TransactionDetailView(DetailView):
     model = Transaction
-    template_name = 'transactions/details.html'
+    template_name = 'transactions/search.html'
     context_object_name = 'sale'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_gas_quantity')
-        return context
+        return context    
+
 
 class TransactionCreateView(View):
    def post(self, request):

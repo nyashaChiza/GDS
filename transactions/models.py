@@ -23,4 +23,4 @@ class Transaction(models.Model):
             return 0.00
 
     def get_order_number(self):
-        return self.created.strftime('%s')[2:7]
+        return f"#{self.created.strftime('%s')[2:7]}"

@@ -13,7 +13,7 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Stock Sales</h3>
+                            <h3 class="nk-block-title page-title">Search Results ({{ search_results_count }})</h3>
                         </div><!-- .nk-block-head-content -->
                         <div class="nk-block-head-content">
                             <div class="toggle-wrap nk-block-tools-toggle">
@@ -21,14 +21,12 @@
                                 <div class="toggle-expand-content" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
                                         <li>
-                                            <form action="{% url 'transaction_search' %}" method="get">
                                             <div class="form-control-wrap">
                                                 <div class="form-icon form-icon-right">
                                                     <em class="icon ni ni-search"></em>
                                                 </div>
-                                                <input type="text" name="order_number" class="form-control" id="default-04" placeholder="Quick search by Order">
+                                                <input type="text" class="form-control" id="default-04" placeholder="Quick search by Order">
                                             </div>
-                                        </form>
                                         </li>
                                         <li>
                                             <div class="drodown">
@@ -54,7 +52,7 @@
                 <div class="nk-block">
                     <div class="nk-tb-list is-separate is-medium mb-3">
                         <div class="nk-tb-item nk-tb-head">
-                           
+                            
                             <div class="nk-tb-col"><span>Order</span></div>
                             <div class="nk-tb-col tb-col-md"><span>Date</span></div>
                             <div class="nk-tb-col"><span class="d-none d-sm-block">Status</span></div>
@@ -67,7 +65,7 @@
                             </div>
                         </div><!-- .nk-tb-item -->
                         <!-- .nk-tb-item -->
-                         {% for sale in sales %}
+                         {% for sale in search_results %}
                         <div class="nk-tb-item">
                             
                             <div class="nk-tb-col">
