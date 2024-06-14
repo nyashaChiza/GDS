@@ -3,7 +3,7 @@ from .models import Transaction
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'quantity', 'product', 'created', 'updated', 'get_total_cost')
+    list_display = ('customer', 'quantity', 'product', 'created', 'status', 'get_total_cost')
     list_filter = ('product', 'created', 'updated')
     search_fields = ('customer', 'product__name')
     readonly_fields = ('total_cost',)

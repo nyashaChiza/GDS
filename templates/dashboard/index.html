@@ -1,0 +1,253 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+
+{% block body %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h4 class="nk-block-title page-title">Dashboard</h4>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-xxl-4 col-md-6">
+                            <div class="card is-dark h-100">
+                                <div class="nk-ecwg nk-ecwg1">
+                                    <div class="card-inner">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title"> June Total Sales</h6>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="data">
+                                            <div class="amount">${{ dashboard_data.get_sales_data.current_month_total_sales|format_amount }}</div>
+                                            <div class="info"><strong>${{ dashboard_data.get_sales_data.last_month_total_sales|format_amount }}</strong> in last month</div>
+                                        </div>
+                                        <div class="data">
+                                            <h6 class="sub-title">This week so far</h6>
+                                            <div class="data-group">
+                                                <div class="amount">${{ dashboard_data.get_sales_data.week_total_sales|format_amount  }}</div>
+
+                                                </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="nk-ecwg1-ck">
+                                        <canvas class="ecommerce-line-chart-s1" id="totalSales"></canvas>
+                                    </div>
+                                </div><!-- .nk-ecwg -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-xxl-4 col-md-6">
+                            <div class="card h-100">
+                                <div class="nk-ecwg nk-ecwg2">
+                                    <div class="card-inner">
+                                        <div class="card-title-group mt-n1">
+                                            <div class="card-title">
+                                                <h6 class="title">June Total Sales Quantity</h6>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="data">
+                                                <div class="amount">{{ dashboard_data.get_stock_data.current_month_total_sales_quantity }}kg</div>
+                                                <div class="text-info"><strong>{{ dashboard_data.get_stock_data.last_month_total_sales_quantity }}kg</strong> in last month</div>
+                                        </div>
+                                        <div class="data">
+                                            <h6 class="sub-title">This week so far</h6>
+                                            <div class="data-group">
+                                                <div class="amount">{{ dashboard_data.get_stock_data.week_total_sales_quantity }}kg</div>
+
+                                                </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="nk-ecwg2-ck">
+                                        <canvas class="ecommerce-bar-chart-s1" id="averargeOrder"></canvas>
+                                    </div>
+                                </div><!-- .nk-ecwg -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-xxl-4">
+                            <div class="row g-gs">
+                                <div class="col-xxl-12 col-md-6">
+                                    <div class="card">
+                                        <div class="nk-ecwg nk-ecwg3">
+                                            <div class="card-inner pb-0">
+                                                <div class="card-title-group">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Total Sales Today</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="data">
+                                                    <div class="data-group">
+                                                        <div class="amount">${{ dashboard_data.get_sales_data.total_sales_today|format_amount  }}</div>
+                                                         </div>
+                                                </div>
+                                            </div><!-- .card-inner -->
+                                            <div class="nk-ecwg3-ck">
+                                                <canvas class="ecommerce-line-chart-s1" id="totalOrders"></canvas>
+                                            </div>
+                                        </div><!-- .nk-ecwg -->
+                                    </div><!-- .card -->
+                                </div><!-- .col -->
+                                <div class="col-xxl-12 col-md-6">
+                                    <div class="card">
+                                        <div class="nk-ecwg nk-ecwg3">
+                                            <div class="card-inner pb-0">
+                                                <div class="card-title-group">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Available Gas Stock</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="data">
+                                                    <div class="data-group">
+                                                        <div class="amount">{{ dashboard_data.get_stock_data.current_available_gas_quantity }}kg</div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .card-inner -->
+                                            <div class="nk-ecwg3-ck">
+                                                <canvas class="ecommerce-line-chart-s1" id="totalCustomers"></canvas>
+                                            </div>
+                                        </div><!-- .nk-ecwg -->
+                                    </div><!-- .card -->
+                                </div><!-- .col -->
+                            </div><!-- .row -->
+                        </div><!-- .col -->
+                        <div class="col-xxl-8">
+                            <div class="card card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Recent Sales</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nk-tb-list mt-n2">
+                                    <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-col"><span>Order No.</span></div>
+                                        <div class="nk-tb-col tb-col-sm"><span>Quality</span></div>
+                                        <div class="nk-tb-col tb-col-md"><span>Date</span></div>
+                                        <div class="nk-tb-col"><span>Amount</span></div>
+                                        <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
+                                    </div>
+                                    {% for data in dashboard_data.get_stock_sales_table_data %}
+                                    <div class="nk-tb-item">
+                                        <div class="nk-tb-col">
+                                            <span class="tb-lead"><a href="#">#{{ data.get_order_number }}</a></span>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-sm">
+                                            <div class="user-card">
+                                                
+                                                <div class="user-name">
+                                                    <span class="tb-lead">{{ data.quantity }}kg</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-md">
+                                            <span class="tb-sub">{{ data.created }}</span>
+                                        </div>
+                                        <div class="nk-tb-col">
+                                            <span class="tb-sub tb-amount">{{ data.total_cost|format_amount  }} <span>USD</span></span>
+                                        </div>
+                                        <div class="nk-tb-col">
+                                            <span class="badge badge-dot badge-dot-xs bg-{% if data.status == 'Paid' %}success{% else %}warning{% endif %}">{{ data.status }}</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                    
+                                    
+                                    
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+                        <!-- .col -->
+                        <div class="col-xxl-3 col-md-6">
+                            <div class="card h-100">
+                                <div class="card-inner">
+                                    <div class="card-title-group mb-2">
+                                        <div class="card-title">
+                                            <h6 class="title">Site Statistics</h6>
+                                        </div>
+                                    </div>
+                                    <ul class="nk-store-statistics">
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Sales</div>
+                                                <div class="count">${{ dashboard_data.get_sales_data.total_sales|format_amount  }}</div>
+                                            </div>
+                                            <em class="icon bg-primary-dim ni ni-money"></em>
+                                        </li>
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Quantity Moved</div>
+                                                <div class="count">{{ dashboard_data.get_stock_data.total_gas_quantity_sold  }}kg</div>
+                                            </div>
+                                            <em class="icon bg-purple-dim ni ni-unarchive"></em>
+                                        </li>
+                                        
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Requisitions</div>
+                                                <div class="count">{{ dashboard_data.get_stock_data.total_requisitions }}</div>
+                                            </div>
+                                            <em class="icon bg-purple-dim ni ni-truck"></em>
+                                        </li>
+                                    </ul>
+                                </div><!-- .card-inner -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <!-- .col -->
+                        <div class="col-xxl-4 col-lg-6">
+                            <div class="card h-100">
+                                <div class="nk-ecwg nk-ecwg5">
+                                    <div class="card-inner">
+                                        <div class="card-title-group align-start pb-3 g-2">
+                                            <div class="card-title">
+                                                <h6 class="title">Sales</h6>
+                                            </div>
+                                            <div class="card-tools">
+                                                <em class="card-hint icon ni ni-help" data-bs-toggle="tooltip" data-bs-placement="left" title="Total Sales"></em>
+                                            </div>
+                                        </div>
+                                        <div class="data-group">
+                                            <div class="data">
+                                                <div class="title">Monthly</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.monthly_average|format_amount  }}</div>
+                                               
+                                            </div>
+                                            <div class="data">
+                                                <div class="title">Weekly</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.weekly_average|format_amount  }}</div>
+                                                
+                                            </div>
+                                            <div class="data">
+                                                <div class="title">Daily (Avg)</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.daily_average|format_amount  }}</div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="nk-ecwg5-ck">
+                                            <canvas class="ecommerce-line-chart-s4" id="storeVisitors"></canvas>
+                                        </div>
+                                        <div class="chart-label-group">
+                                            <div class="chart-label">01 Jul, 2020</div>
+                                            <div class="chart-label">30 Jul, 2020</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+                    </div><!-- .row -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
