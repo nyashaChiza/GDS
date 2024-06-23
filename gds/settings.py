@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'stock',
     'transactions',
     'dashboard',
+    'requisition',
     
     #3rd part apps
     'allauth',

@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.db import models
 
@@ -23,4 +24,7 @@ class Transaction(models.Model):
             return 0.00
 
     def get_order_number(self):
-        return f"#{self.created.strftime('%s')[2:7]}"
+        # Generate a random UUID
+        order_uuid = uuid.uuid4()
+       
+        return f"#{order_uuid.hex[:8]}"

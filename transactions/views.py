@@ -47,7 +47,7 @@ class TransactionStatusFilterView(ListView):
 
 class TransactionDetailView(DetailView):
     model = Transaction
-    template_name = 'transactions/search.html'
+    template_name = 'transactions/details.html'
     context_object_name = 'sale'
     
     def get_context_data(self, **kwargs):
