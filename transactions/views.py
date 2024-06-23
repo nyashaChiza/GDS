@@ -29,7 +29,7 @@ class TransactionSearchView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
-        context["search_results"] = [sale for sale in self.get_queryset() if sale.get_order_number() == self.request.GET.get("order_number")] 
+        context["search_results"] = [sale for sale in self.get_queryset() if sale.order_number() == self.request.GET.get("order_number")] 
         context["search_results_count"] = len(context["search_results"])
         return context
     
