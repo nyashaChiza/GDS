@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Gas
+from .models import Gas, Reciept
 
 @admin.register(Gas)
 class GasAdmin(admin.ModelAdmin):
@@ -10,3 +10,11 @@ class GasAdmin(admin.ModelAdmin):
     ordering = ('-created',)
     fields = ('name', 'quantity', 'price', 'supplier')
     readonly_fields = ('created', 'updated')
+    
+    
+@admin.register(Reciept)
+class RecieptAdmin(admin.ModelAdmin):
+    list_display = ('quantity', 'stock', 'created')
+    list_filter = ('quantity', 'created')
+    search_fields = ('quantity', 'created')
+    

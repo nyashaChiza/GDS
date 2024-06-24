@@ -44,7 +44,7 @@
                                             </div>
                                         </li>
                                         <li class="nk-block-tools-opt">
-                                            <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                                            <a class="btn btn-icon btn-primary d-md-none"><em data-bs-toggle="modal" data-bs-target="#addRequisitionModal"  class="icon ni ni-plus"></em></a>
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#addRequisitionModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Requisition</span></a>
                                         </li>
                                     </ul>
@@ -87,12 +87,15 @@
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
                                                     <li><a href="{% url 'requisition_detail' requisition.pk %}"><em class="icon ni ni-eye"></em><span>View </span></a></li>
-                                                    {% if requisition.status != 'Delivered' or request.user|has_role:"Admin" or request.user|has_role:"Manager" %}
+                                                    
+                                                    {% if requisition.status != 'Delivered' or requisition.status != 'Denied' or request.user|has_role:"Admin" or request.user|has_role:"Manager" %}
                                                     <li data-bs-toggle="modal" data-bs-target="#MarkAsDeliveredModal{{ requisition.pk }}"><a ><em class="icon ni ni-check-circle-cut" ></em><span>Mark as Delivered</span></a></li>
                                                     {% endif %}
+                                                    
                                                     {% if requisition.status == 'Pending' %}
                                                     <li data-bs-toggle="modal" data-bs-target="#ReviewModal{{ requisition.pk }}"><a ><em class="icon ni ni-list-check"></em><span>Review</span></a></li>
                                                     {% endif %}
+                                                    
                                                     {% if requisition.status != 'Approved' %}
                                                     <li data-bs-toggle="modal" data-bs-target="#removeModal{{ requisition.pk }}"><a class="text-danger"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                                     {% endif %}

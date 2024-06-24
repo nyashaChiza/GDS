@@ -12,3 +12,15 @@ class Gas(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Reciept(models.Model):
+    quantity = models.PositiveIntegerField()
+    stock = models.ForeignKey(Gas, related_name='reciepts', on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.quantity
+
+    
