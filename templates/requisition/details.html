@@ -1,0 +1,80 @@
+
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block body %}
+<div class="nk-content ">
+<div class="row g-gs">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-inner">
+                <div class="card-head">
+                    <h5 class="card-title">Requisition Details</h5>
+                </div>
+                <ul class="nk-store-statistics">
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Requisition</div>
+                            <div class="count">{{ requisition }}</div>
+                        </div>
+                        <em class="icon bg-primary-dim ni ni-bag"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Description</div>
+                            <div class="text-sm">{{ requisition.description}}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-unarchive"></em>
+                    </li>
+                    
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Status</div>
+                            <div class="count">{{ requisition.status }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-user"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Created On</div>
+                            <div class="count">{{ requisition.created }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-clock"></em>
+                    </li>
+                     
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="row g-gs">
+        <div class="col-xxl-12 ">
+            <div class="card">
+                <div class="nk-ecwg nk-ecwg3">
+                    <div class="card-inner pb-0">
+                        <div class="card-title-group">
+                            <div class="card-title">
+                                <h6 class="title">Remaining Stock</h6>
+                            </div>
+                        </div>
+                        <div class="data">
+                            <div class="data-group">
+                                <div class="amount">{{ remaining_stock }} kg</div>
+                                </div>
+                        </div>
+                    </div><!-- .card-inner -->
+                    <div class="nk-ecwg3-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        <canvas class="ecommerce-line-chart-s1 chartjs-render-monitor" id="totalCustomers" width="988" height="132" style="display: block; height: 66px; width: 494px;"></canvas>
+                    </div>
+                </div><!-- .nk-ecwg -->
+            </div><!-- .card -->
+        </div>
+    </div>
+    
+    </div>
+</div>
+</div>
+{% endblock %}

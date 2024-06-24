@@ -13,20 +13,20 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Stock Sales</h3>
+                            <h3 class="nk-block-title page-title">Search Results ({{ search_results_count }})</h3>
                         </div><!-- .nk-block-head-content -->
                         <div class="nk-block-head-content">
                             <div class="toggle-wrap nk-block-tools-toggle">
-                                <a class="btn btn-icon btn-trigger toggle-expand me-n1"  data-target="pageMenu"><em  class="icon ni ni-more-v"></em></a>
+                                <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                                 <div class="toggle-expand-content" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
                                         <li>
-                                            <form action="{% url 'transaction_search' %}" method="get">
+                                            <form action="{% url 'requisition_search' %}" method="get">
                                             <div class="form-control-wrap">
                                                 <div class="form-icon form-icon-right">
                                                     <em class="icon ni ni-search"></em>
                                                 </div>
-                                                <input type="text" name="order_number" class="form-control" id="default-04" placeholder="Quick search by Order">
+                                                <input type="text" name="type" class="form-control" id="default-04" placeholder="Quick search by Type">
                                             </div>
                                         </form>
                                         </li>
@@ -35,15 +35,17 @@
                                                 <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-bs-toggle="dropdown">Status</a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
-                                                        <li><a href="{% url 'transaction_filter' %}?status=Pending"><span>Pending</span></a></li>
-                                                        <li><a href="{% url 'transaction_filter' %}?status=Paid"><span>Paid</span></a></li>
+                                                        <li><a href="{% url 'requisition_filter' %}?status=Pending"><span>Pending</span></a></li>
+                                                        <li><a href="{% url 'requisition_filter' %}?status=Denied"><span>Denied</span></a></li>
+                                                        <li><a href="{% url 'requisition_filter' %}?status=Approved"><span>Approved</span></a></li>
+                                                        <li><a href="{% url 'requisition_filter' %}?status=Delivered"><span>Delivered</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </li>
                                         <li class="nk-block-tools-opt">
-                                            <a href="#" data-bs-toggle="modal"  data-bs-target="#addSaleModal" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addSaleModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Sale</span></a>
+                                            <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#ddRequisitionModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Requisition</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -55,42 +57,26 @@
                     <div class="nk-tb-list is-separate is-medium mb-3">
                         <div class="nk-tb-item nk-tb-head">
                            
-                            <div class="nk-tb-col"><span>Order</span></div>
+                            <div class="nk-tb-col"><span>Type</span></div>
                             <div class="nk-tb-col tb-col-md"><span>Date</span></div>
                             <div class="nk-tb-col"><span class="d-none d-sm-block">Status</span></div>
-                            <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
-                            <div class="nk-tb-col tb-col-md"><span>Purchased</span></div>
-                            <div class="nk-tb-col"><span>Quantity</span></div>
-                            <div class="nk-tb-col"><span>Total</span></div>
                             <div class="nk-tb-col nk-tb-col-tools">
                                 
                             </div>
                         </div><!-- .nk-tb-item -->
                         <!-- .nk-tb-item -->
-                         {% for sale in sales %}
+                         {% for requisition in search_results %}
                         <div class="nk-tb-item">
                             
                             <div class="nk-tb-col">
-                                <span class="tb-lead"><a href="{% url 'transaction_detail' sale.pk %}">{{ sale.order_number }}</a></span>
+                                <span class="tb-lead"><a href="{% url 'requisition_detail' requisition.pk %}">{{ requisition.requisition_type }}</a></span>
                             </div>
                             <div class="nk-tb-col tb-col-md">
-                                <span class="tb-sub">{{ sale.created }}</span>
+                                <span class="tb-sub">{{ requisition.created }}</span>
                             </div>
                             <div class="nk-tb-col">
                                 <span class="dot bg-success d-sm-none"></span>
-                                <span class="badge badge-sm badge-dot has-bg bg-{% if sale.status == 'Paid' %}success{% else %}warning{% endif %} d-none d-sm-inline-flex">{{ sale.status }}</span>
-                            </div>
-                            <div class="nk-tb-col tb-col-sm">
-                                <span class="tb-sub">{{ sale.customer }}</span>
-                            </div>
-                            <div class="nk-tb-col tb-col-md">
-                                <span class="tb-sub text-primary">{{ sale.product }}</span>
-                            </div>
-                            <div class="nk-tb-col">
-                                <span class="tb-lead">{{ sale.quantity }}kg</span>
-                            </div>
-                            <div class="nk-tb-col">
-                                <span class="tb-lead">$ {{ sale.total_cost|format_amount }}</span>
+                                <span class="badge badge-sm badge-dot has-bg bg-{% if requisition.status == 'Approved' %}success{% elif requisition.status == 'Denied' %}danger{% elif requisition.status == 'Delivered' %}primary{% else%}warning{% endif %} d-none d-sm-inline-flex">{{ requisition.status }}</span>
                             </div>
                             <div class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
@@ -100,11 +86,15 @@
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
-                                                    <li><a href="{% url 'transaction_detail' sale.pk %}"><em class="icon ni ni-eye"></em><span>View Sale</span></a></li>
-                                                    <li data-bs-toggle="modal" data-bs-target="#markAsPaidModal{{ sale.pk }}"><a ><em class="icon ni ni-check-circle-cut" ></em><span>Mark as Paid</span></a></li>
-                                                    {% if sale.status == 'Pending' and request.user|has_role:"Admin" or request.user|has_role:"Manager" %}
-                                                    <li><a href="{% url 'transaction_update' sale.pk %}"><em class="icon ni ni-pen2"></em><span>Update Sale</span></a></li>
-                                                    <li data-bs-toggle="modal" data-bs-target="#removeSaleModal{{ sale.pk }}"><a class="text-danger"><em class="icon ni ni-trash"></em><span>Remove Sale</span></a></li>
+                                                    <li><a href="{% url 'requisition_detail' requisition.pk %}"><em class="icon ni ni-eye"></em><span>View </span></a></li>
+                                                    {% if requisition.status != 'Delivered' or request.user|has_role:"Admin" or request.user|has_role:"Operator" %}
+                                                    <li data-bs-toggle="modal" data-bs-target="#MarkAsDeliveredModal{{ requisition.pk }}"><a ><em class="icon ni ni-check-circle-cut" ></em><span>Mark as Delivered</span></a></li>
+                                                    {% endif %}
+                                                    {% if requisition.status == 'Pending' or request.user|has_role:"Admin" or request.user|has_role:"Manager" %}
+                                                    <li data-bs-toggle="modal" data-bs-target="#ReviewModal{{ requisition.pk }}"><a ><em class="icon ni ni-list-check"></em><span>Review</span></a></li>
+                                                    {% endif %}
+                                                    {% if requisition.status != 'Approved' or requisition.status != 'Delivered' %}
+                                                    <li data-bs-toggle="modal" data-bs-target="#removeModal{{ requisition.pk }}"><a class="text-danger"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                                     {% endif %}
                                                 </ul>
                                             </div>
@@ -114,20 +104,43 @@
                             </div>
                         </div><!-- .nk-tb-item -->
                             <!-- Modal Alert -->
-    <div class="modal fade" tabindex="-1" id="markAsPaidModal{{ sale.pk }}">
+                            <div class="modal fade" tabindex="-1" id="MarkAsDeliveredModal{{ requisition.pk }}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                                        <div class="modal-body modal-body-lg text-center">
+                                            <div class="nk-modal">
+                                                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                                                <h4 class="nk-modal-title">Review Requisition!</h4>
+                                                <div class="nk-modal-text">
+                                                    <div class="caption-text">Mark This Requisition <strong>Delivered</strong></div>
+                                                   </div>
+                                                <div class="nk-modal-action">
+                                                    <a href="{% url 'review_requisition' requisition.pk %}?status=Delivered" class="btn btn-lg btn-mw btn-success" >Continue</a>
+                                                    <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div><!-- .modal-body -->
+                                        <div class="modal-footer bg-lighter">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    <div class="modal fade" tabindex="-1" id="ReviewModal{{ requisition.pk }}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
                 <div class="modal-body modal-body-lg text-center">
                     <div class="nk-modal">
                         <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
-                        <h4 class="nk-modal-title">Confirmation!</h4>
+                        <h4 class="nk-modal-title">Review Requisition {{requisition}}!</h4>
                         <div class="nk-modal-text">
-                            <div class="caption-text">Are you sure you want to mark this sale as <strong>Paid</strong></div>
+                            <div class="caption-text"><strong>Review</strong> This Requsition</div>
                            </div>
                         <div class="nk-modal-action">
-                            <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Cancel</a>
-                            <a href="{% url 'mark_sale_as_paid' sale.pk %}" class="btn btn-lg btn-mw btn-success" >Proceed</a>
+                            <a href="{% url 'review_requisition' requisition.pk %}?status=Approved" class="btn btn-lg btn-mw btn-success" >Approved</a>
+                            <a href="{% url 'review_requisition' requisition.pk %}?status=Denied" class="btn btn-lg btn-mw btn-light" >Denied</a>
                         </div>
                     </div>
                 </div><!-- .modal-body -->
@@ -137,20 +150,20 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="removeSaleModal{{ sale.pk }}">
+    <div class="modal fade" tabindex="-1" id="removeModal{{ requisition.pk }}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
                 <div class="modal-body modal-body-lg text-center">
                     <div class="nk-modal">
                         <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-                        <h4 class="nk-modal-title">Remove!</h4>
+                        <h4 class="nk-modal-title">Remove Requisition!</h4>
                         <div class="nk-modal-text">
-                            <div class="caption-text">Are you sure you want to delete this sale <strong>{{ sale.order_number }}</strong></div>
+                            <div class="caption-text">Are you sure you want to delete this Requsistion <strong>{{ requisition }}</strong></div>
                            </div>
                         <div class="nk-modal-action">
+                            <a href="{% url 'requisition_delete' requisition.pk %}" class="btn btn-lg btn-mw btn-dark" >Remove</a>
                             <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Cancel</a>
-                            <a href="{% url 'transaction_delete' sale.pk %}" class="btn btn-lg btn-mw btn-dark" >Remove</a>
                         </div>
                     </div>
                 </div><!-- .modal-body -->
@@ -162,25 +175,7 @@
     </div>
     
                         {% endfor %}
-                              </div><!-- .nk-tb-list -->
-                    {% comment %} <div class="card">
-                        <div class="card-inner">
-                            <div class="nk-block-between-md g-3">
-                                <div class="g">
-                                    <ul class="pagination justify-content-center justify-content-md-start">
-                                        <li class="page-item"><a class="page-link" href="#"><em class="icon ni ni-chevrons-left"></em></a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
-                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">7</a></li>
-                                        <li class="page-item"><a class="page-link" href="#"><em class="icon ni ni-chevrons-right"></em></a></li>
-                                    </ul><!-- .pagination -->
-                                </div>
-                                <!-- .pagination-goto -->
-                            </div><!-- .nk-block-between -->
-                        </div>
-                    </div> {% endcomment %}
+                              </div>
                 </div><!-- .nk-block -->
             </div>
         </div>
@@ -188,20 +183,20 @@
 </div>
 
 <!-- Add Sale modal -->
-<div class="modal fade" id="addSaleModal">
+<div class="modal fade" id="addRequisitionModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add New Sale</h5>
+                <h5 class="modal-title">Add New Requisition</h5>
                 <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
             <div class="modal-body">
-                <form action="{% url 'transaction_create' %}" method="post">
+                <form action="{% url 'requisition_create' %}" method="post">
                     {% csrf_token %}
                     <div class="row g-4">
-                        {{ add_sale_form }}
+                        {{ add_requisition_form }}
                         <div class="col-12">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-lg btn-primary" value="save">Save</button>
