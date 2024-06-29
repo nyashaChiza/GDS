@@ -1,0 +1,84 @@
+
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block body %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Stock Reciepts</h3>
+                        </div><!-- .nk-block-head-content -->
+                        
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="nk-tb-list is-separate is-medium mb-3">
+                        <div class="nk-tb-item nk-tb-head">
+                           
+                            <div class="nk-tb-col"><span>Stock</span></div>
+                            <div class="nk-tb-col tb-col-md"><span>Quantity</span></div>
+                            <div class="nk-tb-col"><span class="d-none d-sm-block">Date</span></div>
+                            
+                        </div><!-- .nk-tb-item -->
+                        <!-- .nk-tb-item -->
+                         {% for requisition in requisitions %}
+                        <div class="nk-tb-item">
+                            
+                            <div class="nk-tb-col">
+                                <span class="tb-lead">{{ reciept.stock }}</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <span class="tb-sub">{{ reciept.quantity }}</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <span class="tb-sub">{{ reciept.created }}</span>
+                            </div>
+                            
+                        </div><!-- .nk-tb-item -->
+    
+                        {% endfor %}
+                              </div>
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Sale modal -->
+<div class="modal fade" id="addRecieptModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Stock Reciept</h5>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'reciept_create' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row g-4">
+                        {{ add_reciept_form }}
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-lg btn-primary" value="save">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <span class="sub-text">Endframe</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./Add Sale modal -->
+{% endblock %}

@@ -19,6 +19,7 @@ class TransactionListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
+        context['remaining_quantity'] = Gas.objects.first().quantity
         return context
     
 class TransactionSearchView(ListView):
@@ -55,16 +56,17 @@ class TransactionDetailView(DetailView):
         context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_gas_quantity')
         return context    
 
-
 class TransactionCreateView(View):
    def post(self, request):
         form = TransactionForm(request.POST)
         if form.is_valid():
-           form.save()
-           messages.success(request, "Sale Saved Successfully") # type: ignore
+            stock = Gas.objects.first()
+            stock.quantity = stock.quantity - form.cleaned_data['quantity']
+            stock.save()    
+            form.save()
+            messages.success(request, "Sale Saved Successfully") # type: ignore
         else:
-            messages.warning(request, "An Error Occurred, Please Try Again") # type: ignore
-            settings.LOGGER.error(form.errors)
+            messages.warning(request, form.errors) # type: ignore
         return redirect(reverse('transaction_list'))
     
 class TransactionUpdateStatusView(View):

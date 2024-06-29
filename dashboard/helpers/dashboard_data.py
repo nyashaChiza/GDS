@@ -12,7 +12,7 @@ class DashboardData:
     
     def get_stock_data(self):
         
-        return {"current_month_total_sales_quantity": 340.3,"week_total_sales_quantity":29.4, "total_sales_quantity": 340.3,"last_month_total_sales_quantity": 340.3, "current_available_gas_quantity":230, "total_gas_quantity_sold":1220, "total_requisitions":68 }
+        return {"current_month_total_sales_quantity": 340.3,"week_total_sales_quantity":29.4, "total_sales_quantity": 340.3,"last_month_total_sales_quantity": 340.3, "current_available_gas_quantity":Gas.objects.first().quantity, "total_gas_quantity_sold":1220, "total_requisitions":68 }
     
     def get_sales_plot_data(self):
         
