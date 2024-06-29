@@ -1,0 +1,136 @@
+
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block body %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Stock Reception</h3>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        
+                                        <li class="nk-block-tools-opt">
+                                            <a class="btn btn-icon btn-primary d-md-none"><em data-bs-toggle="modal" data-bs-target="#addRecieptModal"  class="icon ni ni-plus"></em></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addRecieptModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Requisition</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="nk-tb-list is-separate is-medium mb-3">
+                        <div class="nk-tb-item nk-tb-head">
+                           
+                            <div class="nk-tb-col"><span>Date</span></div>
+                            <div class="nk-tb-col tb-col-md"><span>Quantity</span></div>
+                            <div class="nk-tb-col nk-tb-col-tools">
+                                
+                            </div>
+                        </div><!-- .nk-tb-item -->
+                        <!-- .nk-tb-item -->
+                         {% for reciept in reciepts %}
+                        <div class="nk-tb-item">
+                            
+                            <div class="nk-tb-col">
+                                <span class="tb-lead"><a href="{% url 'reciept_detail' reciept.pk %}">{{ reciept.created|date:'d M Y' }}</a></span>
+                            </div>
+                            <div class="nk-tb-col">
+                                <span class="tb-lead"><a href="{% url 'reciept_detail' reciept.pk %}">{{ reciept.quantity}}kg</a></span>
+                            </div>
+                            
+                            <div class="nk-tb-col nk-tb-col-tools">
+                                <ul class="nk-tb-actions gx-1">
+                                    
+                                  <li>
+                                        <div class="drodown me-n1">
+                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="{% url 'reciept_detail' reciept.pk %}"><em class="icon ni ni-eye"></em><span>View </span></a></li>
+                                                    <li data-bs-toggle="modal" data-bs-target="#removeModal{{ reciept.pk }}"><a class="text-danger"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!-- .nk-tb-item -->
+                            
+    
+    <div class="modal fade" tabindex="-1" id="removeModal{{ reciept.pk }}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                <div class="modal-body modal-body-lg text-center">
+                    <div class="nk-modal">
+                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                        <h4 class="nk-modal-title">Remove Stock Recieption!</h4>
+                        <div class="nk-modal-text">
+                            <div class="caption-text">Are you sure you want to delete this Entry <strong>{{ reciept }}</strong></div>
+                           </div>
+                        <div class="nk-modal-action">
+                            <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Cancel</a>
+                            <a href="{% url 'reciept_delete' reciept.pk %}" class="btn btn-lg btn-mw btn-dark" >Remove</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+                <div class="modal-footer bg-lighter">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+                        {% endfor %}
+                              </div>
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Sale modal -->
+<div class="modal fade" id="addRecieptModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Record Stock Reception</h5>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'reciept_create' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row g-4">
+                        {{ add_reciept_form }}
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-lg btn-primary" value="save">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <span class="sub-text">Endframe</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./Add Sale modal -->
+{% endblock %}
