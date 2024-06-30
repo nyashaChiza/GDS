@@ -1,66 +1,109 @@
 {% load static %}
 
-<div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">
+<div class="nk-sidebar nk-sidebar-fixed is-light" data-content="sidebarMenu">
   <div class="nk-sidebar-element nk-sidebar-head">
-      <div class="nk-sidebar-brand">
-          <a href="html/index.html" class="logo-link nk-sidebar-logo">
-              <img class="logo-light logo-img" src="{% static 'images/logo.png' %}" srcset="{% static 'images/logo2x.png' %} 2x" alt="logo">
-              <img class="logo-dark logo-img" src="{% static 'images/logo-dark.png' %}" srcset="{% static 'images/logo-dark2x.png' %} 2x" alt="logo-dark">
-              <img class="logo-small logo-img logo-img-small" src="./images/logo-small.png" srcset="{% static 'images/logo-small2x.png' %} 2x" alt="logo-small">
-          </a>
-      </div>
-      <div class="nk-menu-trigger me-n2">
-          <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
-          <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
-      </div>
-  </div><!-- .nk-sidebar-element -->
+    <div class="nk-sidebar-brand">
+      {% comment %}
+      <a href="#" class="logo-link nk-sidebar-logo">
+        <img
+          class="logo-light logo-img"
+          src="{% static 'images/png/logo-black.png' %}"
+          srcset="{% static 'images/png/logo-black.png' %} 2x"
+          alt="logo"
+        />
+        <img
+          class="logo-dark logo-img"
+          src="{% static 'images/png/logo-black.png' %}"
+          srcset="{% static 'images/png/logo-black.png' %} 2x"
+          alt="logo-dark"
+        />
+        <img
+          class="logo-small logo-img logo-img-small"
+          src="images/png/logo-black.png"
+          srcset="{% static 'images/png/logo-black.png' %} 2x"
+          alt="logo-small"
+        />
+      </a>
+      {% endcomment %}
+    </div>
+    <div class="nk-menu-trigger me-n2">
+      <a
+        href="#"
+        class="nk-nav-toggle nk-quick-nav-icon d-xl-none"
+        data-target="sidebarMenu"
+        ><em class="icon ni ni-arrow-left"></em
+      ></a>
+      <a
+        href="#"
+        class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex"
+        data-target="sidebarMenu"
+        ><em class="icon ni ni-menu"></em
+      ></a>
+    </div>
+  </div>
+  <!-- .nk-sidebar-element -->
   <div class="nk-sidebar-element">
-      <div class="nk-sidebar-content">
-          <div class="nk-sidebar-menu" data-simplebar>
-              <ul class="nk-menu">
-                  <li class="nk-menu-item">
-                      <a href="{% url 'dashboard' %}" class="nk-menu-link">
-                          <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
-                          <span class="nk-menu-text">Dashboard</span>
-                      </a>
-                  </li><!-- .nk-menu-item -->
-                  <li class="nk-menu-item">
-                      <a href="{% url 'transaction_list' %}" class="nk-menu-link">
-                          <span class="nk-menu-icon"><em class="icon ni ni-bag-fill"></em></span>
-                          <span class="nk-menu-text">Sales</span>
-                      </a>
-                  </li><!-- .nk-menu-item -->
-                  <li class="nk-menu-item">
-                      <a href="{% url 'requisition_list' %}" class="nk-menu-link">
-                          <span class="nk-menu-icon"><em class="icon ni ni-truck"></em></span>
-                          <span class="nk-menu-text">Requistions</span>
-                      </a>
-                  </li><!-- .nk-menu-item -->
-                  <li class="nk-menu-item">
-                    <a href="{% url 'reciept_list' %}" class="nk-menu-link">
-                        <span class="nk-menu-icon"><em class="icon ni ni-truck"></em></span>
-                        <span class="nk-menu-text">Stock</span>
-                    </a>
-                </li>
-                  <!-- .nk-menu-item -->
-                  <hr class="mx -auto bg-light">
-                  <!-- .nk-menu-item -->
-                 <!-- .nk-menu-item -->
-                 <li class="nk-menu-item">
-                  <a href="#" class="nk-menu-link">
-                      <span class="nk-menu-icon"><em class="icon ni ni-location"></em></span>
-                      <span class="nk-menu-text">Sites</span>
-                  </a>
-              </li><!-- .nk-menu-item -->
-              <!-- .nk-menu-item -->
-              <li class="nk-menu-item">
-                  <a href="html/ecommerce/settings.html" class="nk-menu-link">
-                      <span class="nk-menu-icon"><em class="icon ni ni-opt-alt-fill"></em></span>
-                      <span class="nk-menu-text">Settings</span>
-                  </a>
-              </li>
-              </ul><!-- .nk-menu -->
-          </div><!-- .nk-sidebar-menu -->
-      </div><!-- .nk-sidebar-content -->
-  </div><!-- .nk-sidebar-element -->
+    <div class="nk-sidebar-content">
+      <div class="nk-sidebar-menu" data-simplebar>
+        <ul class="nk-menu">
+          <li class="nk-menu-item">
+            <a href="{% url 'dashboard' %}" class="nk-menu-link">
+              <span class="nk-menu-icon"
+                ><em class="icon ni ni-dashboard-fill"></em
+              ></span>
+              <span class="nk-menu-text">Dashboard</span>
+            </a>
+          </li>
+          <!-- .nk-menu-item -->
+          <li class="nk-menu-item">
+            <a href="{% url 'transaction_list' %}" class="nk-menu-link">
+              <span class="nk-menu-icon"
+                ><em class="icon ni ni-bag-fill"></em
+              ></span>
+              <span class="nk-menu-text">Sales</span>
+            </a>
+          </li>
+          <!-- .nk-menu-item -->
+          <li class="nk-menu-item">
+            <a href="{% url 'requisition_list' %}" class="nk-menu-link">
+              <span class="nk-menu-icon"
+                ><em class="icon ni ni-truck"></em
+              ></span>
+              <span class="nk-menu-text">Requistions</span>
+            </a>
+          </li>
+          <!-- .nk-menu-item -->
+          <li class="nk-menu-item">
+            <a href="{% url 'reciept_list' %}" class="nk-menu-link">
+              <span class="nk-menu-icon"
+                ><em class="icon ni ni-layers-fill"></em
+              ></span>
+              <span class="nk-menu-text">Stock</span>
+            </a>
+          </li>
+          <!-- .nk-menu-item -->
+          <hr class="mx -auto bg-light" />
+          <!-- .nk-menu-item -->
+          <!-- .nk-menu-item -->
+          <!-- .nk-menu-item -->
+          <!-- .nk-menu-item -->
+          <li class="nk-menu-item">
+            <a data-bs-toggle="modal"  data-bs-target="#getReportModal" class="nk-menu-link">
+              <span class="nk-menu-icon"
+                ><em class="icon ni ni-report-profit"></em
+              ></span>
+              <span class="nk-menu-text">Reports</span>
+            </a>
+          </li>
+          
+        </ul>
+        <!-- .nk-menu -->
+      </div>
+      <!-- .nk-sidebar-menu -->
+    </div>
+    <!-- .nk-sidebar-content -->
+  </div>
+  <!-- .nk-sidebar-element -->
 </div>
+
+
