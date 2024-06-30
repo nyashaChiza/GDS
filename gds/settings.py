@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'allauth.account',
     "crispy_forms",
     "crispy_bootstrap5", 
-    "debug_toolbar",
+    # "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware'
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'gds.urls'
@@ -140,12 +140,12 @@ MEDIA_URL = "/media/"
 
 LOGGER = loguru.logger
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
-}
+# INTERNAL_IPS = [
+#     '127.0.0.1',
+# ]
+# DEBUG_TOOLBAR_CONFIG = {
+#     'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
