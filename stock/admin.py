@@ -3,18 +3,18 @@ from .models import Gas, Reciept
 
 @admin.register(Gas)
 class GasAdmin(admin.ModelAdmin):
-    list_display = ('name', 'quantity', 'price', 'supplier', 'created', 'updated')
-    list_filter = ('supplier', 'created', 'updated')
-    search_fields = ('name', 'supplier')
+    list_display = ('site','name', 'quantity', 'price', 'supplier', 'created', 'updated')
+    list_filter = ('site','supplier', 'created', 'updated')
+    search_fields = ('site','name', 'supplier')
     date_hierarchy = 'created'
     ordering = ('-created',)
-    fields = ('name', 'quantity', 'price', 'supplier')
+    fields = ('site','name', 'quantity', 'price', 'supplier')
     readonly_fields = ('created', 'updated')
     
     
 @admin.register(Reciept)
 class RecieptAdmin(admin.ModelAdmin):
-    list_display = ('quantity', 'stock', 'created')
-    list_filter = ('quantity', 'created')
-    search_fields = ('quantity', 'created')
+    list_display = ('site','quantity', 'stock', 'created')
+    list_filter = ('site','quantity', 'created')
+    search_fields = ('site','quantity', 'created')
     

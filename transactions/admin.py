@@ -3,9 +3,9 @@ from .models import Transaction
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'quantity', 'product', 'created', 'status', 'get_total_cost')
-    list_filter = ('product', 'created', 'updated')
-    search_fields = ('customer', 'product__name')
+    list_display = ('site','customer', 'quantity', 'product', 'created', 'status', 'get_total_cost')
+    list_filter = ('site','product', 'created', 'updated')
+    search_fields = ('site','customer', 'product__name')
     readonly_fields = ('total_cost',)
 
     def get_total_cost(self, obj):
