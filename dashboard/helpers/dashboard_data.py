@@ -3,9 +3,12 @@ from stock.models import Gas
 from datetime import datetime
 
 class DashboardData:
-    def __init__(self, date: datetime):
+    def __init__(self, site:str, date: datetime):
         self.date = date
         
+    def get_site_data(self):
+        return {'name':'test', 'capacity':2341, 'address':'123 Main Street', 'contact':'0783481766'}
+
     def get_sales_data(self):
         
         return {"current_month_total_sales": 678, "total_sales": 1000, "last_month_total_sales": 679, "week_total_sales": 67.45 , "total_sales_today":14.7}

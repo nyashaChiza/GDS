@@ -51,7 +51,7 @@ class RequisitionDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_gas_quantity')
+        context["remaining_stock"] = DashboardData('site', datetime.now()).get_stock_data().get('current_available_gas_quantity')
         return context
 
 class RequisitionCreateView(View):

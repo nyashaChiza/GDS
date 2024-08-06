@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = True#config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -32,10 +32,13 @@ INSTALLED_APPS = [
     'transactions',
     'dashboard',
     'requisition',
+    'accounts',
     
     #3rd part apps
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    
     "crispy_forms",
     "crispy_bootstrap5", 
     # "debug_toolbar",
@@ -172,3 +175,5 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'account_login'

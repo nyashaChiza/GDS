@@ -7,6 +7,6 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
      
-        context['dashboard_data'] = DashboardData(datetime.now())
+        context['dashboard_data'] = DashboardData('site', datetime.now())
         return context
     
