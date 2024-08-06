@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 import uuid
@@ -41,4 +42,5 @@ class User(AbstractUser):
         try:
             return f"{self.first_name[0]}{self.last_name[0]}".upper()
         except Exception as e:
+            settings.LOGGER.error(e)
             return f"{self.role[0:2]}".upper()
