@@ -22,18 +22,18 @@ class GasModelTest(TestCase):
 
 class GasListViewTest(TestCase):
     def test_gas_list_view(self):
-        url = reverse('stock:gas_list')
+        url = reverse('gas_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         
 class GasCreateViewTest(TestCase):
     def test_gas_create_view(self):
-        url = reverse('stock:gas_create')
+        url = reverse('gas_create')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
     
     def test_gas_create_form_submission(self):
-        url = reverse('stock:gas_create')
+        url = reverse('gas_create')
         data = {
             'name': 'Gas B',
             'quantity': 5,
