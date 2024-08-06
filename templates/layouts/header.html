@@ -1,22 +1,51 @@
 {% load static %}
-
-<div class="nk-header nk-header-fixed is-light">
-    <div class="container-fluid">
+<div class="nk-header is-light nk-header-fixed has-fixed">
+    <div class="container-xl wide-xl">
         <div class="nk-header-wrap">
-            <div class="nk-menu-trigger d-xl-none ms-n1">
+            <div class="nk-menu-trigger d-xl-none ms-n1 me-3">
                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
             </div>
-            <div class="nk-header-brand d-xl-none">
-                <a href="#" class="logo-link">
-                    <img class="logo-light logo-img" src="{% static 'images/logo.png' %}" srcset="{% static 'images/logo2x.png' %} 2x" alt="logo">
-                    <img class="logo-dark logo-img" src="{% static 'images/logo-dark.png' %}" srcset="{% static 'images/logo-dark2x.png' %} 2x" alt="logo-dark">
-                </a>
-            </div><!-- .nk-header-brand -->
-            <div class="nk-header-search ms-3 ms-xl-0">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search anything">
-            </div><!-- .nk-header-news -->
-            
+            <!-- .nk-header-brand -->
+            <div class="nk-header-menu is-light mobile-menu">
+                
+            </div><!-- .nk-header-menu -->
+            <div class="nk-header-tools">
+                <ul class="nk-quick-nav">
+                    
+                    
+                    <!-- .dropdown -->
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <div class="user-toggle">
+                                <div class="user-avatar sm">
+                                    <em class="icon ni ni-user-alt"></em>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-end">
+                            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                <div class="user-card">
+                                    <div class="user-avatar">
+                                        <span>{{ request.user.avatar }}</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="lead-text">{{ request.user }}</span>
+                                        <span class="sub-text">{{ request.user.role }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-inner">
+                               
+                            </div>
+                            <div class="dropdown-inner">
+                                <ul class="link-list">
+                                    <li><a class="text-danger" href="{% url 'account_logout' %}"><em class="icon ni ni-signout"></em><span >Sign out</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div><!-- .nk-header-tools -->
         </div><!-- .nk-header-wrap -->
     </div><!-- .container-fliud -->
 </div>

@@ -1,13 +1,15 @@
 from transactions.models import Transaction
 from stock.models import Gas
+from accounts.models import Site, User
 from datetime import datetime
 
 class DashboardData:
-    def __init__(self, site:str, date: datetime):
+    def __init__(self, user:User, date: datetime):
         self.date = date
+        self.user = user
         
     def get_site_data(self):
-        return {'name':'test', 'capacity':2341, 'address':'123 Main Street', 'contact':'0783481766'}
+        return self.user.site
 
     def get_sales_data(self):
         

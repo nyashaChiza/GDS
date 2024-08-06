@@ -24,14 +24,16 @@
             {% include "layouts/sidebar.html" %}
             <!-- sidebar @e -->
             <!-- wrap @s -->
-            <div class="nk-wrap ">
+            <div class="nk-wrap">
                 <!-- main header @s -->
                 {% include "layouts/header.html" %}
                 <!-- main header @e -->
                 {% include "layouts/messages.html" %}
                 <!-- content @s -->
+                <div class="py-4">
                 {% block body %}
                 {% endblock %}
+                </div>
                 <!-- content @e -->
                 <!-- footer @s -->
                 {% include "layouts/footer.html" %}

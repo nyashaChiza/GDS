@@ -36,3 +36,9 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
+    
+    def avatar(self):
+        try:
+            return f"{self.first_name[0]}{self.last_name[0]}".upper()
+        except Exception as e:
+            return f"{self.role[0:2]}".upper()

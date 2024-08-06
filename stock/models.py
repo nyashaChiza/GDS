@@ -3,6 +3,7 @@ from django.db import models
 
 class Gas(models.Model):
     name = models.CharField(max_length=100)
+    site = models.ForeignKey('accounts.Site', on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     supplier = models.CharField(max_length=100, null=True, blank=True)
@@ -14,6 +15,7 @@ class Gas(models.Model):
         return self.name
     
 class Reciept(models.Model):
+    site = models.ForeignKey('accounts.Site', on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.PositiveIntegerField()
     stock = models.ForeignKey(Gas, related_name='reciepts', on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True, null=True)

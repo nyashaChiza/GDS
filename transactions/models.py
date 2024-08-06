@@ -4,7 +4,8 @@ from django.db import models
 
 class Transaction(models.Model):
     STATUS_CHOICES = (('Pending', 'Pending'), ('Paid', 'Paid'))
-
+    
+    site = models.ForeignKey('accounts.Site', on_delete=models.SET_NULL, null=True, blank=True)
     customer = models.CharField(max_length=100, blank=True, null=True)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
     unit_cost = models.DecimalField(max_digits=10, decimal_places=2, default=1.00)  # type: ignore
