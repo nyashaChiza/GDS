@@ -74,7 +74,7 @@ class RecieptDetailView(DetailView):
 class RecieptDeleteView(View):
        def get(self, request, pk):
         reciept = Reciept.objects.filter(pk=pk).first()
-        stock = Gas.objects.filter(pk=reciept.stock.pk).first()
+        stock = Gas.objects.filter(pk=reciept.stock.pk, site=request.user.site).first()
         if reciept.stock.quantity - reciept.quantity > -1:
             stock.quantity = reciept.stock.quantity - reciept.quantity
             stock.save()    
