@@ -1,0 +1,33 @@
+
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block body %}
+    <div class="nk-content my-5">
+        {% if form.errors %}
+        {% for error in form.errors %}
+        <div class="alert alert-pro alert-danger">
+            {{ error }}: {{error.message}}
+        </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="nk-block">
+        <div class="card h-100 m-2 p-2">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }} <!-- Render form fields as paragraphs -->
+            <p>
+            <label for="id_price">Price:</label>
+            <input type="hidden" name="company" value={{ request.user.company}} id="id_company">
+            <input type="number" name="price" class="form-control" value = "{{form.instance.stock.first.price}}" required step="0.01" id="id_price">
+            </p>
+            <button class="btn btn-lg btn-primary btn-block my-1" type="submit">Save</button>
+          </form>
+        </div>
+    </div>
+    </div>
+  {% endblock %}

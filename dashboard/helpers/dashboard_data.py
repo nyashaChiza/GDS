@@ -17,7 +17,7 @@ class DashboardData:
             return self.user.operation_site
         elif self.user.role == "Manager":
             return self.user.managed_site
-        return self.user.company.site.first()
+        return None
 
     def get_sales_data(self):
         """Returns a dictionary with sales data."""
@@ -167,5 +167,5 @@ class DashboardData:
     def get_stock_sales_table_data(self):
         """Returns a queryset of all transactions for the user's site."""
         if self.site:
-            return Transaction.objects.filter(site=self.site)
+            return Transaction.objects.filter(site=self.site).order_by('-created')[:6]
         return Transaction.objects.none()  # Return an empty queryset if no site is assigned

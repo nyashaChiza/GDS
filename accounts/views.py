@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -96,7 +96,39 @@ def create_site(request):
     else:
         messages.warning(request, "You do not have the right role to perform this action")
         return redirect('site_list')
-    
+
+@login_required
+def update_site(request, uuid):
+    site = get_object_or_404(Site, uuid=uuid, company=request.user.company)
+
+    if request.user.role == "Admin":
+        if request.method == 'POST':
+            form = SiteForm(request.POST, instance=site)
+            if form.is_valid():
+                site = form.save(commit=False)
+                # Ensure the site remains associated with the user's company
+                site.company = request.user.company
+                site.save()
+
+                # Update the stock price if necessary (assuming 'price' is in the form)
+                stock = Stock.objects.filter(site=site, name='LP Gas').first()
+                if stock:
+                    stock.price = float(form.data['price'])
+                    stock.save()
+                
+                messages.success(request, "Site Updated Successfully")
+                return redirect('site_list')
+            else:
+                messages.error(request, "There was an error updating the site.")
+                return render(request, 'sites/update.html', {'form': form, 'site': site})
+        else:
+            form = SiteForm(instance=site)
+            add_staff_form = StaffUserForm(initial={'status':"Active"})
+
+        return render(request, 'sites/update.html', {'form': form, 'site': site, 'add_staff_form': add_staff_form})
+    else:
+        messages.warning(request, "You do not have the right role to perform this action")
+        return redirect('site_list')
 class SiteListView(ListView):
     model = Site
     template_name = 'sites/index.html'

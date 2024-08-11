@@ -87,6 +87,7 @@
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
                                                     <li><a href="{% url 'site_detail' site.uuid %}"><em class="icon ni ni-eye"></em><span>View Site</span></a></li>
+                                                    <li><a href="{% url 'site_update' site.uuid %}"><em class="icon ni ni-pen"></em><span>Update Site</span></a></li>
                                                     <li data-bs-toggle="modal" data-bs-target="#addStaffModal{{ site.pk }}"><a ><em class="icon ni ni-user-check"></em><span>Add Staff</span></a></li>
                                                 </ul>
                                             </div>

@@ -17,8 +17,3 @@ class TransactionForm(ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs["class"] = "form-control"
             
-    def clean_quantity(self):
-        quantity = self.cleaned_data.get("quantity")
-        if Stock.objects.first().quantity < quantity:
-            raise forms.ValidationError(f"Purchased quantity is greater than the remaining stock quantity {Stock.objects.first().quantity}kg")
-        return self.cleaned_data.get("quantity")

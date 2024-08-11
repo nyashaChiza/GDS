@@ -49,7 +49,10 @@ class RecieptListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         site = get_site(self.request.user)
-        context['add_reciept_form'] = RecieptForm(initial={"stock":site.stock.first()})
+        if site:
+            context['add_reciept_form'] = RecieptForm(initial={"stock":site.stock.first(), "site":site})
+        else:
+            context['add_reciept_form'] = RecieptForm()
         return context
     
     def get_queryset(self):
@@ -64,10 +67,13 @@ class RecieptCreateView(View):
         form = RecieptForm(request.POST)
         if form.is_valid():
             form.save()
-            Stock_stock = Stock.objects.filter(pk=form.instance.stock.pk).first()
-            if Stock_stock:
-                Stock_stock.quantity =  form.instance.stock.quantity + form.instance.quantity
-                Stock_stock.save()
+            stock = Stock.objects.filter(pk=form.instance.stock.pk).first()
+            if stock:
+                stock.quantity =  stock.quantity + form.instance.quantity
+                receipt = form.save(commit=False)
+                receipt.site = get_site(self.request.user)
+                stock.save()
+                receipt.save()
                 settings.LOGGER.critical(form.instance.stock.quantity)
                 
             messages.success(request, "Receipt Saved Successfully") # type: ignore
