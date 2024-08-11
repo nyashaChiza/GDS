@@ -53,22 +53,46 @@ class TransactionDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(self.request.user.site, datetime.now()).get_stock_data().get('current_available_Stock_quantity')
+        context["remaining_stock"] = DashboardData(self.request.user).get_stock_data().get('current_available_Stock_quantity')
         return context    
 
 class TransactionCreateView(View):
-   def post(self, request):
+    def post(self, request):
         form = TransactionForm(request.POST)
+        
         if form.is_valid():
-            stock = Stock.objects.first()
-            stock.quantity = stock.quantity - form.cleaned_data['quantity']
-            stock.save()    
-            form.save()
-            messages.success(request, "Sale Saved Successfully") # type: ignore
+            site = self.get_user_site(request.user)
+            if not site:
+                messages.warning(request, "Invalid user role or site association.")
+                return redirect(reverse('transaction_list'))
+            
+            # Decrement the stock quantity
+            stock = site.stock.first()  # Assuming the site has a related stock object
+            if stock and stock.quantity >= form.cleaned_data['quantity']:
+                stock.quantity -= form.cleaned_data['quantity']
+                stock.save()
+
+                # Save the transaction
+                transaction = form.save(commit=False)
+                transaction.site = site
+                transaction.save()
+
+                messages.success(request, "Sale Saved Successfully")
+            else:
+                messages.error(request, "Insufficient stock quantity or stock not found.")
         else:
-            messages.warning(request, form.errors) # type: ignore
+            messages.warning(request, "Failed to save the transaction. Please correct the errors below.")
+            messages.warning(request, form.errors)
+
         return redirect(reverse('transaction_list'))
-    
+
+    def get_user_site(self, user):
+        """Returns the site associated with the user based on their role."""
+        if user.role == "Operator":
+            return user.operation_site
+        elif user.role == "Manager":
+            return user.managed_site
+        return None    
 class TransactionUpdateStatusView(View):
        def get(self, request, pk):
         transaction = Transaction.objects.filter(pk=pk).first()
@@ -93,7 +117,7 @@ class TransactionUpdateView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_Stock_quantity')
+        context["remaining_stock"] = DashboardData(self.request.user).get_stock_data().get('current_available_Stock_quantity')
         return context
 
 class TransactionDeleteView(View):

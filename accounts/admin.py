@@ -10,7 +10,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'gender', 'role', 'status', 'is_logged_in')
+    list_display = ('username', 'company','email', 'gender', 'role', 'status', 'is_logged_in')
     list_filter = ('role', 'status', 'is_logged_in')
     search_fields = ('username', 'email', 'phone_number')
 

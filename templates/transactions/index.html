@@ -46,8 +46,10 @@
                                             <a  class="btn btn-icon btn-warning d-md-none"><em class="icon ni ni-alert-fill-c"></em></a>
                                             <a  disabled class="btn btn-warning d-none d-md-inline-flex"><em class="icon ni ni-alert-fill-c"></em><span>Out Of Stock</span></a>
                                             {% else %}
+                                            {% if request.user.role == "Manager" or request.user.role == "Operator" %}
                                             <a href="#" data-bs-toggle="modal"  data-bs-target="#addSaleModal" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#addSaleModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Sale</span></a>
+                                            {% endif %}
                                             {% endif %}
                                         </li>
                                     </ul>

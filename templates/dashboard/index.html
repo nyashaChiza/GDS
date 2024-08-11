@@ -107,7 +107,7 @@
                                                 </div>
                                                 <div class="data">
                                                     <div class="data-group">
-                                                        <div class="amount">{{ dashboard_data.get_stock_data.current_available_Stock_quantity }}kg</div>
+                                                        <div class="amount">{{ dashboard_data.site.stock.first.quantity}}kg</div>
                                                     </div>
                                                 </div>
                                             </div><!-- .card-inner -->
@@ -187,7 +187,7 @@
                                         <li class="item">
                                             <div class="info">
                                                 <div class="title">Quantity Moved</div>
-                                                <div class="count">{{ dashboard_data.get_stock_data.total_Stock_quantity_sold  }}kg</div>
+                                                <div class="count">{{ dashboard_data.get_stock_data.total_stock_quantity_sold  }}kg</div>
                                             </div>
                                             <em class="icon bg-purple-dim ni ni-unarchive"></em>
                                         </li>
@@ -208,8 +208,8 @@
                                         </li>
                                         <li class="item">
                                             <div class="info">
-                                                <div class="title">Address</div>
-                                                <div class="count">{{ dashboard_data.get_site_data.address }}</div>
+                                                <div class="title">Site</div>
+                                                <div class="count">{{ dashboard_data.get_site_data.name }}</div>
                                             </div>
                                             <em class="icon bg-purple-dim ni ni-truck"></em>
                                         </li>

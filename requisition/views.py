@@ -51,7 +51,7 @@ class RequisitionDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(self.request.user, datetime.now()).get_stock_data().get('current_available_Stock_quantity')
+        context["remaining_stock"] = DashboardData(self.request.user).get_stock_data().get('current_available_Stock_quantity')
         return context
 
 class RequisitionCreateView(View):
@@ -89,7 +89,7 @@ class RequisitionUpdateView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_Stock_quantity')
+        context["remaining_stock"] = DashboardData(self.request.user).get_stock_data().get('current_available_Stock_quantity')
         return context
 
 class RequisitionDeleteView(View):

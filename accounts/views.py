@@ -29,8 +29,9 @@ def create_staff(request, pk:int):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
-            staff_user = form.save(commit=False)
             site = Site.objects.get(pk=pk)  # Assuming the site is selected in the form
+            staff_user = form.save(commit=False)
+            staff_user.company = request.user.company
             
             # Assign the user as the site's manager or operator based on their role
             if staff_user.role == 'Manager':
@@ -142,5 +143,5 @@ class SiteDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['site'] = Site.objects.filter(uuid=kwargs.get('uuid')).first()
-        context["remaining_stock"] = DashboardData(self.request.user, datetime.now()).get_stock_data().get('current_available_Stock_quantity')
+        context["remaining_stock"] = DashboardData(self.request.user).get_stock_data().get('current_available_Stock_quantity')
         return context

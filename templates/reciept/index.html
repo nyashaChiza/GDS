@@ -22,8 +22,10 @@
                                     <ul class="nk-block-tools g-3">
                                         
                                         <li class="nk-block-tools-opt">
+                                            {% if request.user.role == "Manager" or request.user.role == "Operator" %}
                                             <a class="btn btn-icon btn-primary d-md-none"><em data-bs-toggle="modal" data-bs-target="#addRecieptModal"  class="icon ni ni-plus"></em></a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addRecieptModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Requisition</span></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addRecieptModal" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Receipt</span></a>
+                                            {% endif %}
                                         </li>
                                     </ul>
                                 </div>
