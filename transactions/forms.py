@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from stock.models import Gas
+from stock.models import Stock
 from django.forms.widgets import HiddenInput
 from transactions.models import Transaction
 
@@ -19,6 +19,6 @@ class TransactionForm(ModelForm):
             
     def clean_quantity(self):
         quantity = self.cleaned_data.get("quantity")
-        if Gas.objects.first().quantity < quantity:
-            raise forms.ValidationError(f"Purchased quantity is greater than the remaining stock quantity {Gas.objects.first().quantity}kg")
+        if Stock.objects.first().quantity < quantity:
+            raise forms.ValidationError(f"Purchased quantity is greater than the remaining stock quantity {Stock.objects.first().quantity}kg")
         return self.cleaned_data.get("quantity")

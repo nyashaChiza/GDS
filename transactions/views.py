@@ -6,7 +6,7 @@ from django.views.generic import ListView,UpdateView, DetailView
 from django.views import View
 from transactions.forms import TransactionForm
 from .models import Transaction
-from stock.models import Gas
+from stock.models import Stock
 from django.urls import reverse, reverse_lazy
 from dashboard.helpers import DashboardData
 from datetime import datetime
@@ -18,8 +18,8 @@ class TransactionListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
-        context['remaining_quantity'] = Gas.objects.first().quantity
+        context['add_sale_form'] = TransactionForm(initial={"product":Stock.objects.first()})
+        context['remaining_quantity'] = Stock.objects.first().quantity
         return context
     
 class TransactionSearchView(ListView):
@@ -29,7 +29,7 @@ class TransactionSearchView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
+        context['add_sale_form'] = TransactionForm(initial={"product":Stock.objects.first()})
         context["search_results"] = [sale for sale in self.get_queryset() if sale.order_number() == self.request.GET.get("order_number")] 
         context["search_results_count"] = len(context["search_results"])
         return context
@@ -41,7 +41,7 @@ class TransactionStatusFilterView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_sale_form'] = TransactionForm(initial={"product":Gas.objects.first()})
+        context['add_sale_form'] = TransactionForm(initial={"product":Stock.objects.first()})
         context["search_results"] = [sale for sale in self.get_queryset() if sale.status == self.request.GET.get("status")] 
         context["search_results_count"] = len(context["search_results"])
         return context
@@ -53,14 +53,14 @@ class TransactionDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(self.request.user.site, datetime.now()).get_stock_data().get('current_available_gas_quantity')
+        context["remaining_stock"] = DashboardData(self.request.user.site, datetime.now()).get_stock_data().get('current_available_Stock_quantity')
         return context    
 
 class TransactionCreateView(View):
    def post(self, request):
         form = TransactionForm(request.POST)
         if form.is_valid():
-            stock = Gas.objects.first()
+            stock = Stock.objects.first()
             stock.quantity = stock.quantity - form.cleaned_data['quantity']
             stock.save()    
             form.save()
@@ -93,7 +93,7 @@ class TransactionUpdateView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_gas_quantity')
+        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_Stock_quantity')
         return context
 
 class TransactionDeleteView(View):

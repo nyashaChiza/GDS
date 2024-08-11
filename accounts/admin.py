@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import User, Site
+from .models import User, Site, Company
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'address', 'contact', 'created', 'updated')
+    search_fields = ('name', 'address', 'contact')
+    list_filter = ('created', 'updated')
+    ordering = ('-created',)
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -9,6 +16,6 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Site)
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('name', 'contact', 'capacity', 'manager')
-    list_filter = ('status', 'manager') 
+    list_display = ('name', 'contact', 'capacity', 'operator','manager')
+    list_filter = ('status', 'manager', 'operator') 
     search_fields = ('name', 'status')

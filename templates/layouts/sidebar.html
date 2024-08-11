@@ -3,11 +3,9 @@
 <div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">
   <div class="nk-sidebar-element nk-sidebar-head">
       <div class="nk-sidebar-brand">
-          <a href="html/index.html" class="logo-link nk-sidebar-logo">
-              <img class="logo-light logo-img" src="{% static 'images/logo.png' %}" srcset="{% static 'images/logo2x.png' %} 2x" alt="logo">
-              <img class="logo-dark logo-img" src="{% static 'images/logo-dark.png' %}" srcset="{% static 'images/logo-dark2x.png' %} 2x" alt="logo-dark">
-              <img class="logo-small logo-img logo-img-small" src="./images/logo-small.png" srcset="{% static 'images/logo-small2x.png' %} 2x" alt="logo-small">
-          </a>
+        <a href="html/index.html" class="logo-link nk-sidebar-logo">
+            <span class="nk-menu-text h4 nk-title">{{ request.user.company}}</span>
+        </a>
       </div>
       <div class="nk-menu-trigger me-n2">
           <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
@@ -42,12 +40,13 @@
                         <span class="nk-menu-text">Stock</span>
                     </a>
                 </li>
+                {% if request.user.role == "Admin" or request.user.role == "SuperUser" %}
                   <!-- .nk-menu-item -->
                   <hr class="mx -auto bg-light">
                   <!-- .nk-menu-item -->
                  <!-- .nk-menu-item -->
                  <li class="nk-menu-item">
-                  <a href="#" class="nk-menu-link">
+                  <a href="{% url 'site_list' %}" class="nk-menu-link">
                       <span class="nk-menu-icon"><em class="icon ni ni-location"></em></span>
                       <span class="nk-menu-text">Sites</span>
                   </a>
@@ -59,6 +58,7 @@
                       <span class="nk-menu-text">Settings</span>
                   </a>
               </li>
+              {% endif %}
               </ul><!-- .nk-menu -->
           </div><!-- .nk-sidebar-menu -->
       </div><!-- .nk-sidebar-content -->

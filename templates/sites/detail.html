@@ -1,0 +1,124 @@
+
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block body %}
+<div class="nk-content my-5">
+<div class="row g-gs">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-inner">
+                <div class="card-head">
+                    <h5 class="card-title">Site: {{ site }}</h5>
+                </div>
+                <ul class="nk-store-statistics">
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Company</div>
+                            <div class="count">{{ site.company }}</div>
+                        </div>
+                        <em class="icon bg-primary-dim ni ni-template"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Capacity</div>
+                            <div class="count">{{ site.capacity }}kg</div>
+                        </div>
+                        <em class="icon bg-primary-dim ni ni-db"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Contact</div>
+                            <div class="count">{{ site.contact  }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-mobile"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Adress</div>
+                            <div class="count">{{ site.address  }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-map"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Operator</div>
+                            <div class="count">{{ site.operator }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-user-c"></em>
+                    </li>
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Manager</div>
+                            <div class="count">{{ site.manager }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-user-c"></em>
+                    </li>
+                    
+                    
+                    <li class="item">
+                        <div class="info">
+                            <div class="title">Created On</div>
+                            <div class="count">{{ site.created }}</div>
+                        </div>
+                        <em class="icon bg-purple-dim ni ni-clock"></em>
+                    </li>
+                     
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="row g-gs">
+        <div class="col-xxl-12 ">
+            <div class="card">
+                <div class="nk-ecwg nk-ecwg3">
+                    <div class="card-inner pb-0">
+                        <div class="card-title-group">
+                            <div class="card-title">
+                                <h6 class="title">Remaining Stock</h6>
+                            </div>
+                        </div>
+                        <div class="data">
+                            <div class="data-group">
+                                <div class="amount">{{site.stock.first.quantity}} kg</div>
+                                </div>
+                        </div>
+                    </div><!-- .card-inner -->
+                    <div class="nk-ecwg3-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        <canvas class="ecommerce-line-chart-s1 chartjs-render-monitor" id="totalCustomers" width="988" height="132" style="display: block; height: 66px; width: 494px;"></canvas>
+                    </div>
+                </div><!-- .nk-ecwg -->
+            </div><!-- .card -->
+        </div>
+    </div>
+    <div class="row g-gs my-1">
+        <div class="col-xxl-12 ">
+            <div class="card">
+                <div class="nk-ecwg nk-ecwg3">
+                    <div class="card-inner pb-0">
+                        <div class="card-title-group">
+                            <div class="card-title">
+                                <h6 class="title">Selling Price </h6>
+                            </div>
+                        </div>
+                        <div class="data">
+                            <div class="data-group">
+                                <div class="amount">${{ site.stock.first.price|format_amount }} </div>
+                                </div>
+                        </div>
+                    </div><!-- .card-inner -->
+                    <div class="nk-ecwg3-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        <canvas class="ecommerce-line-chart-s1 chartjs-render-monitor" id="totalOrders" width="988" height="132" style="display: block; height: 66px; width: 494px;"></canvas>
+                    </div>
+                </div><!-- .nk-ecwg -->
+            </div><!-- .card -->
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+{% endblock %}

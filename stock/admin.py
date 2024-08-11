@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Gas, Reciept
+from .models import Stock, Reciept
 
-@admin.register(Gas)
-class GasAdmin(admin.ModelAdmin):
+@admin.register(Stock)
+class StockAdmin(admin.ModelAdmin):
     list_display = ('site','name', 'quantity', 'price', 'supplier', 'created', 'updated')
     list_filter = ('site','supplier', 'created', 'updated')
     search_fields = ('site','name', 'supplier')

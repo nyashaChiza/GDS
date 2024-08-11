@@ -44,50 +44,32 @@
                                 <a href="#" class="toggle btn-white btn btn-icon btn-light" data-target="athPromo"><em class="icon ni ni-info"></em></a>
                             </div>
                             <div class="nk-block nk-block-middle nk-auth-body">
-                                {% include "layouts/messages.html" %}
-                                {% if form.errors %}
-                                    <div class="alert alert-pro alert-warning">
-                                        <div class="alert-text">
-                                            <p><em class="icon ni ni-alert-c mx-1"></em>Username Or Password Is Incorrect </p>
-                                        </div>
-                                    </div>
-                                {% endif %}
+                             
+                                
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content">
-                                        <h5 class="nk-block-title">Sign-In</h5>
-                                        <div class="nk-block-des">
-                                            <p>Access the portal using your email and password.</p>
-                                        </div>
+                                        <h5 class="nk-block-title">Sign-Up</h5>
+                                        
                                     </div>
                                 </div><!-- .nk-block-head -->
-                                <form action="{% url 'account_login' %}" method="Post" class="form-validate is-alter" autocomplete="off">
+                                <form method="post">
+                                    {% if form.errors %}
+                                        <div class="alert alert-pro alert-danger">
+                                            <ul>
+                                                {% for field, errors in form.errors.items %}
+                                                    <li><strong>{{ field|capfirst }}</strong>:
+                                                        {% for error in errors %}
+                                                            <span>{{ error }}</span>
+                                                        {% endfor %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
                                     {% csrf_token %}
-                                    <div class="form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="email-address">Email or Username</label>
-                                        </div>
-                                        <div class="form-control-wrap">
-                                            <input autocomplete="off" type="text" name="login"  class="form-control form-control-lg" required id="email-address" placeholder="Enter your email address or username">
-                                        </div>
-                                    </div><!-- .form-group -->
-                                    <div class="form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="password">Password</label>
-                                            <a class="link link-primary link-sm" tabindex="-1" href="{% url 'account_reset_password' %}">Forgot Password?</a>
-                                        </div>
-                                        <div class="form-control-wrap">
-                                            <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
-                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                                            </a>
-                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password">
-                                           </div>
-                                    </div><!-- .form-group -->
-                                    <div class="form-group">
-                                        <button type='submit' class="btn btn-lg btn-primary btn-block my-1">Sign in</button>
-                                        <a href='{% url "user_signup" %}' class="btn btn-lg btn-secondary btn-block col-md-6">Sign Up</a>
-                                    </div>
-                                </form><!-- form -->
+                                    {{ form.as_p }} <!-- Render form fields as paragraphs -->
+                                    <button class="btn btn-lg btn-primary btn-block my-1" type="submit">Sign Up</button>
+                                  </form>
                                 
                             </div><!-- .nk-block -->
                             <!-- .nk-block -->

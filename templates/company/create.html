@@ -1,0 +1,48 @@
+
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block body %}
+<div class="nk-content my-5">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Setup Company</h3>
+                        </div><!-- .nk-block-head-content -->
+                        
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card h-100 m-2 p-2">
+                    <form method="post">
+                        {% if form.errors %}
+                            <div class="alert alert-pro alert-danger">
+                                <ul>
+                                    {% for field, errors in form.errors.items %}
+                                        <li><strong>{{ field|capfirst }}</strong>:
+                                            {% for error in errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% csrf_token %}
+                        {{ form.as_p }} <!-- Render form fields as paragraphs -->
+                        <button class="btn btn-lg btn-primary btn-block my-1" type="submit">Save</button>
+                      </form>
+                    </div>
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

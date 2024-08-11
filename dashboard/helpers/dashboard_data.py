@@ -1,5 +1,5 @@
 from transactions.models import Transaction
-from stock.models import Gas
+from stock.models import Stock
 from accounts.models import Site, User
 from datetime import datetime
 
@@ -17,7 +17,7 @@ class DashboardData:
     
     def get_stock_data(self):
         
-        return {"current_month_total_sales_quantity": 340.3,"week_total_sales_quantity":29.4, "total_sales_quantity": 340.3,"last_month_total_sales_quantity": 340.3, "current_available_gas_quantity":Gas.objects.first().quantity, "total_gas_quantity_sold":1220, "total_requisitions":68 }
+        return {"current_month_total_sales_quantity": 340.3,"week_total_sales_quantity":29.4, "total_sales_quantity": 340.3,"last_month_total_sales_quantity": 340.3, "current_available_Stock_quantity":65, "total_Stock_quantity_sold":1220, "total_requisitions":68 }
     
     def get_sales_plot_data(self):
         

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.views.generic import ListView,UpdateView, DetailView
 from django.views import View
-from stock.models import Gas
+from stock.models import Stock
 from requisition.forms import RequisitionForm
 from .models import Requisition
 from django.urls import reverse, reverse_lazy
@@ -51,7 +51,7 @@ class RequisitionDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData('site', datetime.now()).get_stock_data().get('current_available_gas_quantity')
+        context["remaining_stock"] = DashboardData(self.request.user, datetime.now()).get_stock_data().get('current_available_Stock_quantity')
         return context
 
 class RequisitionCreateView(View):
@@ -89,7 +89,7 @@ class RequisitionUpdateView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_gas_quantity')
+        context["remaining_stock"] = DashboardData(datetime.now()).get_stock_data().get('current_available_Stock_quantity')
         return context
 
 class RequisitionDeleteView(View):
