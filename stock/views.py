@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, View, DeleteView
@@ -6,14 +7,21 @@ from django.contrib import messages
 from requisition.forms import RecieptForm
 from django.conf import settings
 from django.shortcuts import redirect
-from dashboard.helpers import DashboardData
-from datetime import datetime
+from dashboard.helpers import DashboardData, get_site
+
 
 
 class StockListView(ListView):
     model = Stock
     template_name = 'stock/index.html'
     context_object_name = 'Stock_items'
+    
+    def get_queryset(self):
+        site = get_site(self.request.user)
+        if site:
+            return super().get_queryset().filter(site=site)
+        else:
+            return super().get_queryset()
 
 class StockCreateView(CreateView):
     model = Stock
@@ -37,11 +45,19 @@ class RecieptListView(ListView):
     model = Reciept
     template_name = 'reciept/index.html'
     context_object_name = 'reciepts'
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_reciept_form'] = RecieptForm(initial={"stock":Stock.objects.first()})
+        site = get_site(self.request.user)
+        context['add_reciept_form'] = RecieptForm(initial={"stock":site.stock.first()})
         return context
+    
+    def get_queryset(self):
+        site = get_site(self.request.user)
+        if site:
+            return super().get_queryset().filter(site=site)
+        else:
+            return super().get_queryset()
     
 class RecieptCreateView(View):
        def post(self, request):

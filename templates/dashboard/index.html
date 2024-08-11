@@ -11,7 +11,7 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h4 class="nk-block-title page-title">Dashboard</h4>
+                            <h4 class="nk-block-title page-title">{{ request.user.operation_site }}{{ request.user.managed_site }} Dashboard</h4>
                         </div><!-- .nk-block-head-content -->
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
@@ -23,7 +23,7 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title"> June Total Sales</h6>
+                                                <h6 class="title"> {{month|title}} Total Sales</h6>
                                             </div>
                                             
                                         </div>
@@ -51,7 +51,7 @@
                                     <div class="card-inner">
                                         <div class="card-title-group mt-n1">
                                             <div class="card-title">
-                                                <h6 class="title">June Total Sales Quantity</h6>
+                                                <h6 class="title">{{month|title}} Total Sales Quantity</h6>
                                             </div>
                                             
                                         </div>
@@ -202,16 +202,23 @@
                                         <li class="item">
                                             <div class="info">
                                                 <div class="title">Contact</div>
-                                                <div class="count">{{ dashboard_data.get_site_data.contact }}</div>
+                                                <div class="count text-dark"><a class="text-dark" href="tel:{{ dashboard_data.get_site_data.contact }}">{{ dashboard_data.get_site_data.contact }}</a></div>
                                             </div>
-                                            <em class="icon bg-purple-dim ni ni-truck"></em>
+                                            <em class="icon ni ni-call bg-purple-dim"></em>
+                                        </li>
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Capacity</div>
+                                                <div class="count">{{ dashboard_data.get_site_data.capacity }}kg</div>
+                                            </div>
+                                            <em class="icon bg-purple-dim ni ni-db"></em>
                                         </li>
                                         <li class="item">
                                             <div class="info">
                                                 <div class="title">Site</div>
                                                 <div class="count">{{ dashboard_data.get_site_data.name }}</div>
                                             </div>
-                                            <em class="icon bg-purple-dim ni ni-truck"></em>
+                                            <em class="icon bg-purple-dim ni ni-location"></em>
                                         </li>
                                     </ul>
                                 </div><!-- .card-inner -->

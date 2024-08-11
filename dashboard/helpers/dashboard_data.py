@@ -1,5 +1,6 @@
 from transactions.models import Transaction
 from stock.models import Stock
+from django.conf import settings
 from accounts.models import Site, User
 from requisition.models import Requisition
 from datetime import datetime, timedelta
@@ -16,7 +17,7 @@ class DashboardData:
             return self.user.operation_site
         elif self.user.role == "Manager":
             return self.user.managed_site
-        return None
+        return self.user.company.site.first()
 
     def get_sales_data(self):
         """Returns a dictionary with sales data."""
@@ -32,19 +33,26 @@ class DashboardData:
         """Calculate total sales for the current month."""
         start_of_month = datetime.now().replace(day=1)
         # Calculate the total sales for the last month by summing quantity * unit_cost
-        return Transaction.objects.filter(
-            site=self.site,
-            created__gte=start_of_month,
-        ).aggregate(
-            total_sales=Sum(F('quantity') * F('unit_cost'))
-        )['total_sales'] * self.site.stock.first().price or 0.00
-
+        try:
+            return Transaction.objects.filter(
+                site=self.site,
+                created__gte=start_of_month,
+            ).aggregate(
+                total_sales=Sum(F('quantity') * F('unit_cost'))
+            )['total_sales'] * self.site.stock.first().price or 0.00
+        except Exception as e:
+            settings.LOGGER.error(e)
+            return 0.00
+        
     def calculate_total_sales(self):
         """Calculate total sales for today."""
-        return Transaction.objects.filter(site=self.site).aggregate(
-            total_sales=Sum(F('quantity') * F('unit_cost'))
-        )['total_sales'] * self.site.stock.first().price or 0.00
-
+        try:
+            return Transaction.objects.filter(site=self.site).aggregate(
+                total_sales=Sum(F('quantity') * F('unit_cost'))
+            )['total_sales'] * self.site.stock.first().price or 0.00
+        except Exception as e:
+            settings.LOGGER.error(e)
+            return 0.00
     def calculate_last_month_sales(self):
         """Calculate total sales for the last month."""
         start_of_last_month = (datetime.now().replace(day=1) - timedelta(days=1)).replace(day=1)
@@ -64,20 +72,28 @@ class DashboardData:
         start_of_week = datetime.now() - timedelta(days=datetime.now().weekday())
 
         # Calculate the total sales for the current week by summing quantity * unit_cost
-        return Transaction.objects.filter(
-            site=self.site,
-            created__gte=start_of_week
-        ).aggregate(
-            total_sales=Sum(F('quantity') * F('unit_cost'))
-        )['total_sales'] * self.site.stock.first().price or 0.00
-        
+        try:
+            return Transaction.objects.filter(
+                site=self.site,
+                created__gte=start_of_week
+            ).aggregate(
+                total_sales=Sum(F('quantity') * F('unit_cost'))
+            )['total_sales'] * self.site.stock.first().price or 0.00
+        except Exception as e:
+            settings.LOGGER.error(e)
+            return 0.00
         
     def calculate_today_sales(self):
         """Calculate total sales for today."""
         today = datetime.now().date()
-        return Transaction.objects.filter(site=self.site, created__date=today).aggregate(
-            total_sales=Sum(F('quantity') * F('unit_cost'))
-        )['total_sales'] * self.site.stock.first().price or 0.00
+        try:
+            return Transaction.objects.filter(site=self.site, created__date=today).aggregate(
+                total_sales=Sum(F('quantity') * F('unit_cost'))
+            )['total_sales'] * self.site.stock.first().price or 0.00
+        except Exception as e:
+            settings.LOGGER.error(e)
+            return 0.00
+
     def get_stock_data(self):
         """Returns a dictionary with stock data."""
         return {

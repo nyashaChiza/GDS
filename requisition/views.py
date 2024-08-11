@@ -7,8 +7,8 @@ from stock.models import Stock
 from requisition.forms import RequisitionForm
 from .models import Requisition
 from django.urls import reverse, reverse_lazy
-from dashboard.helpers import DashboardData
-from datetime import datetime
+from dashboard.helpers import DashboardData, get_site
+
 
 class RequisitionListView(ListView):
     model = Requisition
@@ -19,6 +19,13 @@ class RequisitionListView(ListView):
         context = super().get_context_data(**kwargs)
         context['add_requisition_form'] = RequisitionForm()
         return context
+
+    def get_queryset(self):
+        site = get_site(self.request.user)
+        if site:
+            return super().get_queryset().filter(site=site)
+        else:
+            return super().get_queryset()
     
 class RequisitionSearchView(ListView):
     model = Requisition

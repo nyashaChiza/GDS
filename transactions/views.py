@@ -9,7 +9,7 @@ from .models import Transaction
 from stock.models import Stock
 from django.urls import reverse, reverse_lazy
 from dashboard.helpers import DashboardData
-from datetime import datetime
+from dashboard.helpers import get_site
 
 class TransactionListView(ListView):
     model = Transaction
@@ -21,6 +21,13 @@ class TransactionListView(ListView):
         context['add_sale_form'] = TransactionForm(initial={"product":Stock.objects.first()})
         context['remaining_quantity'] = Stock.objects.first().quantity
         return context
+    
+    def get_queryset(self):
+        site = get_site(self.request.user)
+        if site:
+            return super().get_queryset().filter(site=site)
+        else:
+            return super().get_queryset()
     
 class TransactionSearchView(ListView):
     model = Transaction
