@@ -10,6 +10,16 @@ class Stock(models.Model):
     minimum_threshold = models.PositiveIntegerField(default= 50)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['site']),
+            models.Index(fields=['quantity']),
+            models.Index(fields=['price']),
+            models.Index(fields=['supplier']),
+            models.Index(fields=['created']),
+        ]
+
 
     def __str__(self):
         return f"{self.name}"
@@ -22,5 +32,12 @@ class Reciept(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['site']),
+            models.Index(fields=['stock']),
+            models.Index(fields=['created']),
+        ]
+        
     def __str__(self):
         return f"{self.stock} - {self.quantity}"

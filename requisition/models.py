@@ -13,3 +13,12 @@ class Requisition(models.Model):
     
     def __str__(self):
         return f"{self.requisition_type}"
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['site']),
+            models.Index(fields=['requisition_type']),
+            models.Index(fields=['status']),
+            models.Index(fields=['created']),
+            models.Index(fields=['updated']),
+        ]

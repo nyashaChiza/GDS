@@ -33,15 +33,17 @@ INSTALLED_APPS = [
     'dashboard',
     'requisition',
     'accounts',
+    'billing',
     
     #3rd part apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     
-    "crispy_forms",
-    "crispy_bootstrap5", 
-    # "debug_toolbar",
+    'crispy_forms',
+    'crispy_bootstrap5', 
+    # "'debug_toolbar',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -181,3 +183,12 @@ LOGOUT_REDIRECT_URL = 'account_login'
 AUTH_USER_MODEL = 'accounts.User'
 
 SITE_ID = 1
+
+# settings.py
+
+PAYMENT_VARIANTS = {
+    'default': ('payments.dummy.DummyProvider', {
+        'url': 'http://example.com/dummy-payment-page/'
+    }),
+}
+PAYMENT_HOST = 'https://gds.com'

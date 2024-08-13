@@ -17,6 +17,8 @@ Django==5.0
 django-allauth==0.59.0
 django-crispy-forms==2.0
 django-debug-toolbar==4.2.0
+django-payments==2.0.0
+django-phonenumber-field==8.0.0
 et-xmlfile==1.1.0
 executing==2.0.1
 greenlet==3.0.3
@@ -30,6 +32,7 @@ oauthlib==3.2.2
 openpyxl==3.1.5
 parso==0.8.3
 pexpect==4.9.0
+phonenumberslite==8.13.43
 pillow==10.4.0
 prompt-toolkit==3.0.43
 ptyprocess==0.7.0
