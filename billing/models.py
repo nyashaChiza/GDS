@@ -25,7 +25,7 @@ class BillingProfile(models.Model):
             models.Index(fields=['company']),
             models.Index(fields=['subscription_status']),
         ]
-    user = models.OneToOneField('accounts.User', null=True, blank=True, on_delete=models.SET_NULL, )
+    admin = models.OneToOneField('accounts.User', null=True, blank=True, on_delete=models.SET_NULL, )
     company = models.ForeignKey('accounts.Company', on_delete=models.CASCADE, related_name='bill_profiles')
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True, blank=True)
     subscription_status = models.CharField(max_length=50, default='Active', choices=STATUS_CHOICES)

@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+from accounts.models import Site
+from django.contrib.auth.decorators import login_required
+from billing.models import BillingProfile, SubscriptionPlan
 
 def payment_success(request):
     payment_id = request.GET.get('payment_id', 'Unknown')
@@ -27,3 +30,27 @@ def payment_failed(request):
 
     messages.error(request, f"Payment Failed! Error: {error_message}")
     return render(request, 'billing/payment_failed.html', context)
+
+@login_required
+def select_subscription_plan(request, billing_profile_id):
+    if request.user.role == "Admin":
+        billing_profile = get_object_or_404(BillingProfile, id=billing_profile_id, company=request.user.company)
+
+        if request.method == 'POST':
+            plan_id = request.POST.get('subscription_plan')
+            if plan_id:
+                subscription_plan = get_object_or_404(SubscriptionPlan, id=plan_id)
+                billing_profile.subscription_plan = subscription_plan
+                billing_profile.save()
+
+                messages.success(request, f"Subscription plan '{subscription_plan.name}' selected for {billing_profile.company.name}.")
+                return redirect('site_list')
+            else:
+                messages.error(request, "Please select a subscription plan.")
+
+        plans = SubscriptionPlan.objects.all()
+        return render(request, 'billing/pricing.html', {'billing_profile': billing_profile, 'plans': plans})
+    else:
+        messages.warning(request, "You do not have the right role to perform this action")
+        return redirect('site_list')
+

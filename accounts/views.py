@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from billing.models import BillingProfile
 from dashboard.helpers import DashboardData
 from .forms import CompanyForm, SiteForm, UserForm, StaffUserForm
 from .models import Company, Site, User
@@ -81,18 +81,26 @@ def create_site(request):
                 # Assign the user's company to the site
                 site.company = request.user.company
                 site.save()
-         
+
+                # Create initial stock for the site
                 Stock.objects.create(name='LP Gas', site=site, price=float(form.data['price']))
-                messages.success(request, "Site Created Successfully")
-                return redirect('site_list')
+
+                # Check if BillingProfile exists for the company, create if not
+                billing_profile, created = BillingProfile.objects.get_or_create(
+                    company=request.user.company,
+                    defaults={'admin': request.user}
+                )
+
+                # Redirect to the subscription plan selection view
+                messages.success(request, "Site Created Successfully. Please select a subscription plan.")
+                return redirect('select_subscription_plan', billing_profile_id=billing_profile.id)
             else:
-                
-                return render(request, 'sites/index.html', {'add_site_form': form, 'sites':Site.objects.filter(company=request.user.company).all()})
+                return render(request, 'sites/index.html', {'add_site_form': form, 'sites': Site.objects.filter(company=request.user.company).all()})
 
         else:
             form = SiteForm()
-            add_staff_form = StaffUserForm(initial={'status':"Active"})
-        return render(request, 'sites/index.html', {'add_site_form': form,  'add_staff_form': add_staff_form, 'sites':Site.objects.filter(company=request.user.company).all()})
+            add_staff_form = StaffUserForm(initial={'status': "Active"})
+        return render(request, 'sites/index.html', {'add_site_form': form, 'add_staff_form': add_staff_form, 'sites': Site.objects.filter(company=request.user.company).all()})
     else:
         messages.warning(request, "You do not have the right role to perform this action")
         return redirect('site_list')
