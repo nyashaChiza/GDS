@@ -1,103 +1,50 @@
-
 {% extends 'layouts/base.html' %}
 {% load custom_tags %}
 {% load crispy_forms_tags %}
-
 {% load static %}
-    {% block body %}
+
+{% block body %}
+<div class="nk-content my-5">
+    <div class="container-fluid">
         <div class="nk-block nk-block-lg">
             <div class="nk-block-head">
                 <div class="nk-block-between g-3">
                     <div class="nk-block-head-content">
-                        <h3 class="nk-block-title page-title">Pricing Table V2</h3>
+                        <h3 class="nk-block-title page-title">Subscriptions</h3>
                         <div class="nk-block-des text-soft">
                             <p>Choose your pricing plan and start enjoying our service.</p>
                         </div>
                     </div>
                 </div>
             </div><!-- .nk-block-head -->
-            <div class="row g-gs">
-                <div class="col-sm-6 col-xxl-3">
-                    <div class="card pricing text-center">
-                        <div class="pricing-body">
-                            <div class="pricing-media">
-                                <img src="./images/icons/plan-s1.svg" alt="">
+
+            <form method="POST" action="{% url 'select_subscription_plan' billing_profile.pk %}">
+                {% csrf_token %}
+                <div class="row g-gs">
+                    {% for subscription in plans %}
+                    <div class="col-sm-6 col-md-4">
+                        <div class="card pricing text-center">
+                            <div class="pricing-body">
+                                <div class="pricing-media">
+                                    <img src="{% static 'images/icons/plan-s1.svg' %}" alt="">
+                                </div>
+                                <div class="pricing-title w-220px mx-auto">
+                                    <h5 class="title">{{ subscription.name }}</h5>
+                                    <span class="sub-text">{{ subscription.description }}</span>
+                                </div>
+                                <div class="pricing-amount">
+                                    <div class="amount">{{ subscription.price_per_site }}<span>/month</span></div>
+                                </div>
+                                <div class="pricing-action">
+                                    <button type="submit" name="subscription_plan" value="{{ subscription.id }}" class="btn btn-primary">Select Plan</button>
+                                </div>
                             </div>
-                            <div class="pricing-title w-220px mx-auto">
-                                <h5 class="title">Starter</h5>
-                                <span class="sub-text">If you are a small business amn please select this plan</span>
-                            </div>
-                            <div class="pricing-amount">
-                                <div class="amount">$99 <span>/yr</span></div>
-                                <span class="bill">1 User, Billed Yearly</span>
-                            </div>
-                            <div class="pricing-action">
-                                <a href="#" class="btn btn-primary">Select Plan</a>
-                            </div>
-                        </div>
-                    </div><!-- .pricing -->
-                </div><!-- .col -->
-                <div class="col-sm-6 col-xxl-3">
-                    <div class="card pricing recommend text-center">
-                        <span class="pricing-badge badge bg-primary">Recommend</span>
-                        <div class="pricing-body">
-                            <div class="pricing-media">
-                                <img src="./images/icons/plan-s2.svg" alt="">
-                            </div>
-                            <div class="pricing-title w-220px mx-auto">
-                                <h5 class="title">Pro</h5>
-                                <span class="sub-text">If you are a small business amn please select this plan</span>
-                            </div>
-                            <div class="pricing-amount">
-                                <div class="amount">$299 <span>/yr</span></div>
-                                <span class="bill">5 User, Billed Yearly</span>
-                            </div>
-                            <div class="pricing-action">
-                                <a href="#" class="btn btn-primary">Select Plan</a>
-                            </div>
-                        </div>
-                    </div><!-- .pricing -->
-                </div><!-- .col -->
-                <div class="col-sm-6 col-xxl-3">
-                    <div class="card pricing text-center">
-                        <div class="pricing-body">
-                            <div class="pricing-media">
-                                <img src="./images/icons/plan-s3.svg" alt="">
-                            </div>
-                            <div class="pricing-title w-220px mx-auto">
-                                <h5 class="title">Enterprise</h5>
-                                <span class="sub-text">If you are a small business amn please select this plan</span>
-                            </div>
-                            <div class="pricing-amount">
-                                <div class="amount">$599 <span>/yr</span></div>
-                                <span class="bill">20 User, Billed Yearly</span>
-                            </div>
-                            <div class="pricing-action">
-                                <a href="#" class="btn btn-primary">Select Plan</a>
-                            </div>
-                        </div>
-                    </div><!-- .pricing -->
-                </div><!-- .col -->
-                <div class="col-sm-6 col-xxl-3">
-                    <div class="card pricing text-center">
-                        <div class="pricing-body">
-                            <div class="pricing-media">
-                                <img src="./images/icons/plan-s1.svg" alt="">
-                            </div>
-                            <div class="pricing-title w-220px mx-auto">
-                                <h5 class="title">Starter</h5>
-                                <span class="sub-text">If you are a small business amn please select this plan</span>
-                            </div>
-                            <div class="pricing-amount">
-                                <div class="amount">$99 <span>/yr</span></div>
-                                <span class="bill">1 User, Billed Yearly</span>
-                            </div>
-                            <div class="pricing-action">
-                                <a href="#" class="btn btn-primary">Select Plan</a>
-                            </div>
-                        </div>
-                    </div><!-- .pricing -->
-                </div><!-- .col -->
-            </div>
+                        </div><!-- .pricing -->
+                    </div><!-- .col -->
+                    {% endfor %}
+                </div>
+            </form>
         </div>
-    {% endblock %}
+    </div>
+</div>
+{% endblock %}

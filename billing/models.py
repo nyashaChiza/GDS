@@ -25,6 +25,7 @@ class BillingProfile(models.Model):
             models.Index(fields=['company']),
             models.Index(fields=['subscription_status']),
         ]
+    uuid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     admin = models.OneToOneField('accounts.User', null=True, blank=True, on_delete=models.SET_NULL, )
     company = models.ForeignKey('accounts.Company', on_delete=models.CASCADE, related_name='bill_profiles')
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True, blank=True)
@@ -34,12 +35,12 @@ class BillingProfile(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def calculate_total_due(self):
-        total_sites = self. company.site_count()
+        total_sites = self. company.sites.count()
         total_due = total_sites * self.subscription_plan.price_per_site
         return total_due
 
     def __str__(self):
-        return f"{self.company.name} - {self.subscription_plan.name}"
+        return f"{self.company.name} "
 
 class Invoice(models.Model):
     CURRENCY_CHOICES = [

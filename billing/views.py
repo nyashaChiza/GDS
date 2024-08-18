@@ -32,9 +32,9 @@ def payment_failed(request):
     return render(request, 'billing/payment_failed.html', context)
 
 @login_required
-def select_subscription_plan(request, billing_profile_id):
+def select_subscription_plan(request, billing_profile_pk):
     if request.user.role == "Admin":
-        billing_profile = get_object_or_404(BillingProfile, id=billing_profile_id, company=request.user.company)
+        billing_profile = get_object_or_404(BillingProfile, pk=billing_profile_pk, company=request.user.company)
 
         if request.method == 'POST':
             plan_id = request.POST.get('subscription_plan')
@@ -54,3 +54,12 @@ def select_subscription_plan(request, billing_profile_id):
         messages.warning(request, "You do not have the right role to perform this action")
         return redirect('site_list')
 
+@login_required
+def payment_page(request, site_uuid):
+    # Get the site for which the payment is being made
+    site = get_object_or_404(Site, uuid=site_uuid)
+    bill_profile = site.company.bill_profiles.first()
+    
+    # Here you would implement the payment logic
+    # For now, just render a template or return a message
+    return render(request, 'billing/payment_page.html', {'site': site})

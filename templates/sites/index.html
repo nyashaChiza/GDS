@@ -50,7 +50,6 @@
                     <div class="nk-tb-list is-separate is-medium mb-3">
                         <div class="nk-tb-item nk-tb-head">
                            
-                            <div class="nk-tb-col"><span>ID</span></div>
                             <div class="nk-tb-col tb-col-md"><span>Title</span></div>
                             <div class="nk-tb-col"><span class="d-none d-sm-block">Status</span></div>
                             <div class="nk-tb-col tb-col-sm"><span>Contact</span></div>
@@ -63,11 +62,9 @@
                         <div class="nk-tb-item">
                             
                             <div class="nk-tb-col">
-                                <span class="tb-lead"><a href="{% url 'site_detail' site.uuid %}">{{ site.uuid }}</a></span>
+                                <span class="tb-lead"><a href="{% url 'site_detail' site.uuid %}">{{ site }}</a></span>
                             </div>
-                            <div class="nk-tb-col tb-col-md">
-                                <span class="tb-sub">{{ site }}</span>
-                            </div>
+
                             <div class="nk-tb-col">
                                 <span class="dot bg-success d-sm-none"></span>
                                 <span class="badge badge-sm badge-dot has-bg bg-{% if site.status == 'Active' %}success{% else %}warning{% endif %} d-none d-sm-inline-flex">{{ site.status }}</span>

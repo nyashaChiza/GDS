@@ -7,7 +7,8 @@ from django.contrib import messages
 from billing.models import BillingProfile
 from dashboard.helpers import DashboardData
 from .forms import CompanyForm, SiteForm, UserForm, StaffUserForm
-from .models import Company, Site, User
+from .models import Company, Site
+from billing.models import BillingProfile
 from stock.models import Stock
 from django.views.generic import ListView, TemplateView, DetailView
 
@@ -62,8 +63,13 @@ def create_company(request):
                 # Assign the company to the logged-in user
                 request.user.company = company
                 request.user.save()
+                # Check if BillingProfile exists for the company, create if not
+                billing_profile, created = BillingProfile.objects.get_or_create(
+                    company=company,
+                    defaults={'admin': request.user}
+                )
                 messages.success(request, "Company Created Successfully and Assigned to User")
-                return redirect('site_list')  # Redirect to a list view or wherever appropriate
+                return redirect('select_subscription_plan', billing_profile_pk=billing_profile.pk)
         else:
             form = CompanyForm()
         return render(request, 'company/create.html', {'form': form})
@@ -80,20 +86,16 @@ def create_site(request):
                 site = form.save(commit=False)
                 # Assign the user's company to the site
                 site.company = request.user.company
+                
                 site.save()
 
                 # Create initial stock for the site
                 Stock.objects.create(name='LP Gas', site=site, price=float(form.data['price']))
 
-                # Check if BillingProfile exists for the company, create if not
-                billing_profile, created = BillingProfile.objects.get_or_create(
-                    company=request.user.company,
-                    defaults={'admin': request.user}
-                )
-
                 # Redirect to the subscription plan selection view
                 messages.success(request, "Site Created Successfully. Please select a subscription plan.")
-                return redirect('select_subscription_plan', billing_profile_id=billing_profile.id)
+                
+                return redirect('payment_page', site_uuid=site.uuid)    # Redirect to a list view or wherever appropriate
             else:
                 return render(request, 'sites/index.html', {'add_site_form': form, 'sites': Site.objects.filter(company=request.user.company).all()})
 
