@@ -62,6 +62,7 @@ class Invoice(models.Model):
     
     uuid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     billing_profile = models.ForeignKey('BillingProfile', on_delete=models.CASCADE)
+    site = models.ForeignKey('accounts.Site', on_delete=models.CASCADE, null=True, blank=True, related_name='invoices')
     date_issued = models.DateField(auto_now_add=True)
     amount_due = models.DecimalField(max_digits=10, decimal_places=2)
     due_date = models.DateField()
