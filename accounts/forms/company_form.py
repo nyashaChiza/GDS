@@ -14,7 +14,7 @@ class CompanyForm(forms.ModelForm):
 class SiteForm(forms.ModelForm):
     class Meta:
         model = Site
-        fields = ['name', 'address', 'status', 'contact', 'capacity']
+        fields = ['name', 'address', 'contact', 'capacity']
     def __init__(self, *args, **kwargs):
         super(SiteForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():

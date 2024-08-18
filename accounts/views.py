@@ -93,7 +93,7 @@ def create_site(request):
                 Stock.objects.create(name='LP Gas', site=site, price=float(form.data['price']))
 
                 # Redirect to the subscription plan selection view
-                messages.success(request, "Site Created Successfully. Please select a subscription plan.")
+                messages.success(request, "Site Created Successfully.")
                 
                 return redirect('payment_page', site_uuid=site.uuid)    # Redirect to a list view or wherever appropriate
             else:
@@ -150,7 +150,7 @@ class SiteListView(ListView):
         return context
     
     def get_queryset(self) -> QuerySet[Any]:
-        return super().get_queryset().filter(company=self.request.user.company)
+        return super().get_queryset().filter(company=self.request.user.company, status='Active')
 
 class SiteSearchView(ListView):
     model = Site
