@@ -1,5 +1,4 @@
 from django.utils import timezone
-from datetime import datetime
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.conf import settings
@@ -8,6 +7,9 @@ from accounts.models import Site
 from billing.models import BillingProfile, SubscriptionPlan, Invoice, Payment
 from integration.models import Integration
 from paynow import Paynow
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Constants
 PAYMENT_ID_PARAM = 'payment_id'
@@ -68,7 +70,6 @@ def select_subscription_plan(request, billing_profile_pk):
         messages.warning(request, "You do not have the right role to perform this action.")
         return redirect('site_list')
 
-
 @login_required
 def payment_page(request, site_uuid):
     site = get_object_or_404(Site, uuid=site_uuid)
@@ -97,77 +98,62 @@ def payment_page(request, site_uuid):
         status='Pending'
     )
 
-    # Create the Payment entry
-    payment = Payment.objects.create(
-        invoice=invoice,
-        payment_method='Mobile Money',  # or another method as appropriate
-    )
-
     # Add payment details to Paynow
     paynow_payment = paynow.create_payment(f"Payment for {site.name} site", request.user.email)
     paynow_payment.add(f"Subscription for {site.name} site", billing_profile.subscription_plan.price_per_site)
 
     # Send payment request
     response = paynow.send(paynow_payment)
-    settings.LOGGER.info(f"Paynow response: {response}")
+    logger.info(f"Paynow response: {response}")
 
     if response.success:
         # Store the poll URL for future reference
-        payment.poll_url = response.poll_url
-        payment.invoice.status = 'Paid'
-        payment.invoice.payment_date = datetime.today()
-        payment.invoice.paid = True
-        payment.invoice.save()
-        site.status = 'Active'
-        site.save()
-        payment.save()
-
-        # Redirect to Paynow for payment completion
+        payment = Payment.objects.create(
+            invoice=invoice,
+            status='Pending',  # Initially mark as pending
+            poll_url=response.poll_url,
+            billing_first_name=billing_profile.company.name,
+            billing_email=request.user.email,
+            total=billing_profile.subscription_plan.price_per_site,
+            payment_method='Paynow'  # Example payment method
+        )
         return redirect(response.redirect_url)
     else:
-        # Handle failed payment initialization
-        payment.invoice.status = 'Pending' 
-        payment.invoice.save()
-
-        payment.status = 'Failed' 
-        payment.save()
         messages.error(request, "There was an error initiating the payment.")
         return redirect('payment_failed')
 
-
 @login_required
 def payment_status_update(request):
-    payment_id = request.GET.get('payment_id')
-    payment = get_object_or_404(Payment, uuid=payment_id)
+    payment_id = request.GET.get(PAYMENT_ID_PARAM)
+    payment = get_object_or_404(Payment, id=payment_id)
 
-    # Retrieve the Paynow integration
     paynow_integration = Integration.objects.first()
     paynow = Paynow(
         paynow_integration.decrypt_data(paynow_integration.integration_id),
         paynow_integration.decrypt_data(paynow_integration.integration_key)
     )
 
-    # Query Paynow for the payment status
-    response = paynow.check_payment_status(payment.poll_url)
+    status = paynow.check_transaction_status(payment.poll_url)
 
-    if response.paid:
-        # Update payment and invoice as paid
+    if status.paid:
         payment.invoice.status = 'Paid'
         payment.invoice.payment_date = timezone.now()
         payment.invoice.paid = True
         payment.invoice.save()
 
-        payment.status = 'confirmed'
+        payment.status = 'Confirmed'
         payment.save()
+
+        payment.site.status = 'Active'
+        payment.site.save()
 
         messages.success(request, "Payment was successful and invoice has been updated.")
         return redirect('payment_success')
     else:
-        # Payment failed or is still pending
-        payment.invoice.status = 'Pending' if response.pending else 'Overdue'
+        payment.invoice.status = 'Overdue' if not status.pending else 'Pending'
         payment.invoice.save()
 
-        payment.status = 'failed' if not response.pending else 'pending'
+        payment.status = 'Failed' if not status.pending else 'Pending'
         payment.save()
 
         messages.error(request, "Payment failed or is still pending. Please try again.")

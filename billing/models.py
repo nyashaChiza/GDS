@@ -93,6 +93,7 @@ class Payment(BasePayment):
     PAYMENT_CHOICES = [('Card', 'Card'), ('Bank Transfer', 'Bank Transfer'), ('Mobile Money', 'Mobile Money')]
     invoice = models.ForeignKey(Invoice, related_name='payments', on_delete=models.CASCADE)
     payment_method = models.CharField(max_length=50, choices=PAYMENT_CHOICES)
+    poll_url = models.URLField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
