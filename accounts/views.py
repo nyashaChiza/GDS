@@ -4,10 +4,11 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from billing.models import BillingProfile
 from dashboard.helpers import DashboardData
 from .forms import CompanyForm, SiteForm, UserForm, StaffUserForm
-from .models import Company, Site, User
+from .models import Company, Site
+from billing.models import BillingProfile
 from stock.models import Stock
 from django.views.generic import ListView, TemplateView, DetailView
 
@@ -62,8 +63,13 @@ def create_company(request):
                 # Assign the company to the logged-in user
                 request.user.company = company
                 request.user.save()
+                # Check if BillingProfile exists for the company, create if not
+                billing_profile, created = BillingProfile.objects.get_or_create(
+                    company=company,
+                    defaults={'admin': request.user}
+                )
                 messages.success(request, "Company Created Successfully and Assigned to User")
-                return redirect('site_list')  # Redirect to a list view or wherever appropriate
+                return redirect('select_subscription_plan', billing_profile_pk=billing_profile.pk)
         else:
             form = CompanyForm()
         return render(request, 'company/create.html', {'form': form})
@@ -80,19 +86,23 @@ def create_site(request):
                 site = form.save(commit=False)
                 # Assign the user's company to the site
                 site.company = request.user.company
-                site.save()
-         
-                Stock.objects.create(name='LP Gas', site=site, price=float(form.data['price']))
-                messages.success(request, "Site Created Successfully")
-                return redirect('site_list')
-            else:
                 
-                return render(request, 'sites/index.html', {'add_site_form': form, 'sites':Site.objects.filter(company=request.user.company).all()})
+                site.save()
+
+                # Create initial stock for the site
+                Stock.objects.create(name='LP Gas', site=site, price=float(form.data['price']))
+
+                # Redirect to the subscription plan selection view
+                messages.success(request, "Site Created Successfully.")
+                
+                return redirect('payment_page', site_uuid=site.uuid)    # Redirect to a list view or wherever appropriate
+            else:
+                return render(request, 'sites/index.html', {'add_site_form': form, 'sites': Site.objects.filter(company=request.user.company).all()})
 
         else:
             form = SiteForm()
-            add_staff_form = StaffUserForm(initial={'status':"Active"})
-        return render(request, 'sites/index.html', {'add_site_form': form,  'add_staff_form': add_staff_form, 'sites':Site.objects.filter(company=request.user.company).all()})
+            add_staff_form = StaffUserForm(initial={'status': "Active"})
+        return render(request, 'sites/index.html', {'add_site_form': form, 'add_staff_form': add_staff_form, 'sites': Site.objects.filter(company=request.user.company).all()})
     else:
         messages.warning(request, "You do not have the right role to perform this action")
         return redirect('site_list')
@@ -140,7 +150,7 @@ class SiteListView(ListView):
         return context
     
     def get_queryset(self) -> QuerySet[Any]:
-        return super().get_queryset().filter(company=self.request.user.company)
+        return super().get_queryset().filter(company=self.request.user.company, status='Active')
 
 class SiteSearchView(ListView):
     model = Site

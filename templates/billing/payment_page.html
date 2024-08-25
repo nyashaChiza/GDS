@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+<div class="nk-content my-5">
+    <div class="container-fluid">
+        <div class="nk-block nk-block-lg">
+            <div class="nk-block-head">
+                <div class="nk-block-between g-3">
+                    <div class="nk-block-head-content">
+                        <div class="nk-block-des text-soft">
+                            <h2>Complete Payment for {{ site.name }}</h2>
+                            <p>Please proceed with the payment to complete the setup of your site.</p>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .nk-block-head -->
+
+<!-- Payment form or instructions will go here -->
+
+{% endblock %}

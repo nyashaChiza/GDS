@@ -34,3 +34,13 @@ class Transaction(models.Model):
         # Generate a random UUID
         order_uuid = uuid.uuid4()
         return f"#{order_uuid.hex[:8]}".upper()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['site']),
+            models.Index(fields=['customer']),
+            models.Index(fields=['product']),
+            models.Index(fields=['status']),
+            models.Index(fields=['created']),
+            models.Index(fields=['updated']),
+        ]

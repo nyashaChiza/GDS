@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %} 
+{% load custom_tags %} 
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block body %}
+<div class="nk-content my-5">
+  <div class="container-fluid">
+    <div class="nk-block nk-block-lg">
+      <div class="nk-block-head">
+        <div class="nk-block-between g-3">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Payment Status</h3>
+            <div class="nk-block-des text-soft">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    <h1>Payment Failed</h1>
+    <p>Error Message: {{ error_message }}</p>
+    <p>Error Code: {{ error_code }}</p>
+{% endblock %}

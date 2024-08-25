@@ -11,9 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+FERNET_KEY = config('FERNET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True#config('DEBUG', cast=bool)
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -33,15 +34,18 @@ INSTALLED_APPS = [
     'dashboard',
     'requisition',
     'accounts',
+    'billing',
+    'integration',
     
     #3rd part apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     
-    "crispy_forms",
-    "crispy_bootstrap5", 
-    # "debug_toolbar",
+    'crispy_forms',
+    'crispy_bootstrap5', 
+    # "'debug_toolbar',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -181,3 +185,12 @@ LOGOUT_REDIRECT_URL = 'account_login'
 AUTH_USER_MODEL = 'accounts.User'
 
 SITE_ID = 1
+
+# settings.py
+
+PAYMENT_VARIANTS = {
+    'default': ('payments.dummy.DummyProvider', {
+        'url': 'http://example.com/dummy-payment-page/'
+    }),
+}
+PAYMENT_HOST = 'https://gds.com'

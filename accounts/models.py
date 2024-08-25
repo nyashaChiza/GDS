@@ -5,7 +5,7 @@ import uuid
 
 ROLES = (('Admin', 'Admin'), ('Manager', 'Manager'), ('Operator', 'Operator'))
 GENDER_CHOICES = (('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other'))
-STATUS_CHOICES = (('Active', 'Active'), ('Suspended', 'Suspended'))
+STATUS_CHOICES = (('Active', 'Active'), ('Suspended', 'Suspended'),('Draft', 'Draft'))
 
 class Company(models.Model):
     uuid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
@@ -18,12 +18,16 @@ class Company(models.Model):
     def __str__(self):
         return f"{self.name}"
     
+    def site_count():
+        return self.sites.filter(status="Active").count()
+    
+    
 class Site(models.Model):
     uuid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=255)
     address = models.TextField()
-    status = models.CharField(max_length=255, choices=STATUS_CHOICES)
-    company = models.ForeignKey('Company', on_delete=models.SET_NULL, blank=True, null=True, related_name='site')
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='Suspended')
+    company = models.ForeignKey('Company', on_delete=models.SET_NULL, blank=True, null=True, related_name='sites')
     contact = models.CharField(max_length=255)
     capacity = models.FloatField(default=0.00)
     operator = models.OneToOneField('User', on_delete=models.SET_NULL, blank=True, null=True, related_name='operation_site')
