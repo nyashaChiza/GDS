@@ -65,6 +65,7 @@ class RequisitionCreateView(View):
    def post(self, request):
         form = RequisitionForm(request.POST)
         if form.is_valid():
+           form.cleaned_data['site'] = request.user.operation_site
            form.save()
            messages.success(request, "Requisition Saved Successfully") # type: ignore
         else:

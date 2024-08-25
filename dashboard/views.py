@@ -1,10 +1,12 @@
-from django.shortcuts import redirect
+from datetime import datetime
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from dashboard.helpers import DashboardData
-from datetime import datetime
-from django.contrib import messages
+
 
 @method_decorator(login_required, name='dispatch')
 class DashboardView(TemplateView):
@@ -33,7 +35,7 @@ class DashboardView(TemplateView):
         return context
     
     
-@csrf_protect
+
 def generate_reports(request):
     if request.method == 'POST':
         month = request.POST.get('month')
