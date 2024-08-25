@@ -31,3 +31,25 @@ class DashboardView(TemplateView):
         context['dashboard_data'] = DashboardData(self.request.user)
         context['month']= datetime.now().strftime('%B')
         return context
+    
+    
+@csrf_protect
+def generate_reports(request):
+    if request.method == 'POST':
+        month = request.POST.get('month')
+        report_type = request.POST.get('report_type')
+
+        # Logic to generate the report based on month and report_type
+        # This is just an example, implement your own report generation logic
+        if report_type == 'sales_report':
+            report = generate_sales_report(month)
+        elif report_type == 'requisition_report':
+            report = generate_requisition_report(month)
+        elif report_type == 'inventory_report':
+            report = generate_inventory_report(month)
+        else:
+            report = "Invalid report type selected."
+
+        # Return the report as an HTTP response
+        return report
+
