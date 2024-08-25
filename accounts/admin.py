@@ -16,6 +16,6 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Site)
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('name', 'contact', 'capacity', 'operator','manager')
+    list_display = ('name', 'contact', 'capacity','status', 'operator','manager')
     list_filter = ('status', 'manager', 'operator') 
     search_fields = ('name', 'status')
