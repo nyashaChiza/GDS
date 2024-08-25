@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -30,4 +31,12 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['dashboard_data'] = DashboardData(self.request.user)
         context['month']= datetime.now().strftime('%B')
+        return context
+
+class SWTemplateView(TemplateView):
+    template_name = "pwa/sw.js"
+    
+    def get_context_data(self, **kwargs: Any) :
+        context = super().get_context_data(**kwargs)
+        context['VESRION'] = 1
         return context

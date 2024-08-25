@@ -8,8 +8,27 @@
     <meta name="author" content="Nyasha Chizampeni">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A sales application">
+
+    <meta name="theme-color" content="white">
+``
+    <!-- manifest.json  -->
+    <link rel="manifest" href='{% static "manifest.json" %}'>
+    <!-- IE11 & Safari Support  -->
+    <link rel="apple-touch-icon" href='{% static "static/images/favicon.png" %}'>
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href='{% static "images/favicon.png" %}'>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% static 'service-worker.js' %}")
+            .then((registration) => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
+            });
+        }
+    </script>
     <!-- Page Title  -->
     <title>GDS</title>
     <!-- StyleSheets  -->
