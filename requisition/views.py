@@ -17,7 +17,7 @@ class RequisitionListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_requisition_form'] = RequisitionForm()
+        context['add_requisition_form'] = RequisitionForm(initial={'site': self.request.user.operation_site})
         return context
 
     def get_queryset(self):
@@ -46,7 +46,7 @@ class RequisitionStatusFilterView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_requisition_form'] = RequisitionForm()
+        context['add_requisition_form'] = RequisitionForm(initial={'site': self.request.user.operation_site})
         context["search_results"] = [requisition for requisition in self.get_queryset() if requisition.status == self.request.GET.get("status")] 
         context["search_results_count"] = len(context["search_results"])
         return context
