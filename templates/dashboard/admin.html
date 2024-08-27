@@ -1,0 +1,243 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+
+{% block body %}
+<div class="nk-content my-4 ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h4 class="nk-block-title page-title">{{ request.user.operation_site }}{{ request.user.managed_site }} Admin Dashboard</h4>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="card-inner col-xxl-8 col-md-8 bg-white">
+                            <div class="card-title-group align-start mb-3">
+                                <div class="card-title">
+                                    <h6 class="title">Total Sales Per Site</h6>
+                                    
+                                </div>
+                                
+                            </div><!-- .card-title-group -->
+                            <div class="nk-order-ovwg">
+                                <div class="row g-4 align-end">
+                                    <div class="col-xxl-8">
+                                        <div class="nk-order-ovwg-ck">
+                                            <canvas class="order-overview-chart" id="orderOverview" width="820" height="225" style="display: block; box-sizing: border-box; height: 180px; width: 656px;"></canvas>
+                                        </div>
+                                    </div><!-- .col -->
+                                    <!-- .col -->
+                                </div>
+                            </div><!-- .nk-order-ovwg -->
+                        </div><!-- .col -->
+                        <div class="col-xxl-4 col-md-6">
+                            <div class="card card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Site Remaining Stock</h6>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-inner pt-0">
+                                    <ul class="gy-4">
+                                        <li class="border-bottom border-0 border-dashed">
+                                            <div class="mb-1">
+                                                <span class="fs-2 lh-1 mb-1 text-head">85.6kg</span>
+                                               
+                                            </div>
+                                            <div class="align-center">
+                                                <div class="small text-primary me-2">54%</div>
+                                                <div class="progress progress-md rounded-pill w-100 bg-primary-dim">
+                                                    <div class="progress-bar bg-success rounded-pill" data-progress="54" style="width: 54%;"></div>
+                                                </div>
+                                                <div class="dropdown ms-3">
+                                                    <span class=" sub-text" >Site Name</span>
+                                                 
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="border-bottom border-0 border-dashed">
+                                            <div class="mb-1">
+                                                <span class="fs-2 lh-1 mb-1 text-head">85.6kg</span>
+                                               
+                                            </div>
+                                            <div class="align-center">
+                                                <div class="small text-primary me-2">54%</div>
+                                                <div class="progress progress-md rounded-pill w-100 bg-primary-dim">
+                                                    <div class="progress-bar bg-success rounded-pill" data-progress="54" style="width: 54%;"></div>
+                                                </div>
+                                                <div class="dropdown ms-3">
+                                                    <span class=" sub-text" >Site Name</span>
+                                                 
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="border-bottom border-0 border-dashed">
+                                            <div class="mb-1">
+                                                <span class="fs-2 lh-1 mb-1 text-head">85.6kg</span>
+                                               
+                                            </div>
+                                            <div class="align-center">
+                                                <div class="small text-primary me-2">54%</div>
+                                                <div class="progress progress-md rounded-pill w-100 bg-primary-dim">
+                                                    <div class="progress-bar bg-success rounded-pill" data-progress="54" style="width: 54%;"></div>
+                                                </div>
+                                                <div class="dropdown ms-3">
+                                                    <span class=" sub-text" >Site Name</span>
+                                                 
+                                                </div>
+                                            </div>
+                                        </li><!-- li -->
+                                    </ul>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-xxl-8 col-md-4">
+                            <div class="card h-100">
+                                <div class="card-inner mb-n2">
+                                    <div class="card-title-group">
+                                        <div class="card-title card-title-sm">
+                                            <h6 class="title">Total Sales Per Site</h6>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="nk-tb-list is-loose">
+                                    <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-col"><span>Site</span></div>
+                                        <div class="nk-tb-col text-end"><span>Quantity</span></div>
+                                        <div class="nk-tb-col"><span>Users</span></div>
+                                        <div class="nk-tb-col tb-col-sm text-end"><span>Amount</span></div>
+                                    </div><!-- .nk-tb-head -->
+                                    <div class="nk-tb-item">
+                                        <div class="nk-tb-col">
+                                            <div class="icon-text">
+                                                <em class="icon ni ni-map-pin"></em>
+                                                <span class="tb-lead">Google Chrome</span>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col text-end">
+                                            <span class="tb-sub tb-amount"><span>1,641</span></span>
+                                        </div>
+                                        <div class="nk-tb-col">
+                                            <div class="progress progress-md progress-alt bg-transparent">
+                                                <div class="progress-bar" data-progress="72.84" style="width: 72.84%;"></div>
+                                                <div class="progress-amount">72.84%</div>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-sm text-end">
+                                            <span class="tb-sub">22.62%</span>
+                                        </div>
+                                    </div><!-- .nk-tb-item -->
+                                    
+                                </div><!-- .nk-tb-list -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        
+                        <!-- .col -->
+                        <div class="col-xxl-4 col-md-6">
+                            <div class="card h-100">
+                                <div class="card-inner">
+                                    <div class="card-title-group mb-2">
+                                        <div class="card-title">
+                                            <h6 class="title">Organisation Statistics</h6>
+                                        </div>
+                                    </div>
+                                    <ul class="nk-store-statistics">
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Organisation</div>
+                                                <div class="count">{{ dashboard_data.get_company_data.company  }}</div>
+                                            </div>
+                                            <em class="icon bg-primary-dim ni ni-money"></em>
+                                        </li>
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Total Sites</div>
+                                                <div class="count">{{ dashboard_data.get_company_data.company.sites.count }}</div>
+                                            </div>
+                                            <em class="icon bg-purple-dim ni ni-unarchive"></em>
+                                        </li>
+                                        
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Total Sales</div>
+                                                <div class="count">{{ dashboard_data.get_stock_data.total_requisitions }}</div>
+                                            </div>
+                                            <em class="icon bg-purple-dim ni ni-truck"></em>
+                                        </li>
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Contact</div>
+                                                <div class="count text-dark"><a class="text-dark" href="tel:{{ dashboard_data.get_company_data.company.contact }}">{{ dashboard_data.get_company_data.company.contact }}</a></div>
+                                            </div>
+                                            <em class="icon ni ni-call bg-purple-dim"></em>
+                                        </li>
+                                        <li class="item">
+                                            <div class="info">
+                                                <div class="title">Total Capacity</div>
+                                                <div class="count">{{ dashboard_data.get_company_data.capacity }}kg</div>
+                                            </div>
+                                            <em class="icon bg-purple-dim ni ni-db"></em>
+                                        </li>
+                                        
+                                    </ul>
+                                </div><!-- .card-inner -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <!-- .col -->
+                        <div class="col-xxl-12 col-lg-12">
+                            <div class="card h-100">
+                                <div class="nk-ecwg nk-ecwg5">
+                                    <div class="card-inner">
+                                        <div class="card-title-group align-start pb-3 g-2">
+                                            <div class="card-title">
+                                                <h6 class="title">Total Sales Per Month</h6>
+                                            </div>
+                                            <div class="card-tools">
+                                                <em class="card-hint icon ni ni-help" data-bs-toggle="tooltip" data-bs-placement="left" title="Total Sales"></em>
+                                            </div>
+                                        </div>
+                                        <div class="data-group">
+                                            <div class="data">
+                                                <div class="title">Monthly</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.monthly_average|format_amount  }}</div>
+                                               
+                                            </div>
+                                            <div class="data">
+                                                <div class="title">Weekly</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.weekly_average|format_amount  }}</div>
+                                                
+                                            </div>
+                                            <div class="data">
+                                                <div class="title">Daily (Avg)</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.daily_average|format_amount  }}</div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="nk-ecwg5-ck">
+                                            <canvas class="ecommerce-line-chart-s4" id="storeVisitors"></canvas>
+                                        </div>
+                                        <div class="chart-label-group">
+                                            <div class="chart-label">01 Jul, 2020</div>
+                                            <div class="chart-label">30 Jul, 2020</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+                    </div><!-- .row -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

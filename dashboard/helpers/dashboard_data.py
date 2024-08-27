@@ -169,3 +169,30 @@ class DashboardData:
         if self.site:
             return Transaction.objects.filter(site=self.site).order_by('-created')[:6]
         return Transaction.objects.none()  # Return an empty queryset if no site is assigned
+
+
+    def get_all_sites_monthly_sales(self):
+        return {}
+    
+    
+    def get_all_sites_remaining_stock(self):
+        return {}
+    
+    
+    def get_all_sites_total_stock_sales(self):
+        return {}
+    
+    
+    def get_all_sites_requisitions(self):
+        return {}
+    
+    
+    def get_alll_sites_sales_totals(self):
+        return {}
+    
+    def get_company_data(self):
+        return {
+            'company': self.user.company,
+            'capacity': sum(site.capacity for site in self.user.company.sites.all())
+        }
+    

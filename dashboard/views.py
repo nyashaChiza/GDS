@@ -17,9 +17,7 @@ class DashboardView(TemplateView):
         user = request.user
 
         if user.role == 'Admin':
-            # Admin must have a company set up
-            if not user.company:
-                return redirect('create_company')
+            return redirect('admin_dashboard')
 
         elif user.role in ['Manager', 'Operator']:
             # Manager or Operator must have a company and a site assigned
@@ -34,6 +32,30 @@ class DashboardView(TemplateView):
         context['dashboard_data'] = DashboardData(self.request.user)
         context['month']= datetime.now().strftime('%B')
         return context
+
+@method_decorator(login_required, name='dispatch')
+class AdminDashboardView(TemplateView):
+    template_name = 'dashboard/admin.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+
+        if user.role == 'Admin':
+            # Admin must have a company set up
+            if not user.company:
+                return redirect('create_company')
+
+        else:
+            return redirect('dashboard')
+
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['dashboard_data'] = DashboardData(self.request.user)
+        context['month']= datetime.now().strftime('%B')
+        return context
+
 
 def generate_reports(request):
     template_name = "pwa/sw.js"
