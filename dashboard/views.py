@@ -35,7 +35,7 @@ class DashboardView(TemplateView):
         context['month']= datetime.now().strftime('%B')
         return context
 
-class SWTemplateView(TemplateView):
+def generate_reports(request):
     template_name = "pwa/sw.js"
     
     def get_context_data(self, **kwargs: Any) :

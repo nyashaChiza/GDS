@@ -17,7 +17,14 @@ class RequisitionListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_requisition_form'] = RequisitionForm(initial={'site': self.request.user.operation_site})
+        if self.request.user.role == 'Manager':
+            site = self.request.user.managed_site
+        elif self.request.user.role == 'Operator':
+            site = self.request.user.operation_site
+        else:
+            site = None
+            
+        context['add_requisition_form'] = RequisitionForm(initial={'site': site})
         return context
 
     def get_queryset(self):

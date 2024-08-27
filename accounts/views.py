@@ -45,8 +45,8 @@ def create_staff(request, pk:int):
             messages.success(request, "Account Created Successfully")
             return redirect('site_list')
         else:
-            for error in form.errors:
-                messages.warning(request, error)
+            for error in form.error_messages:
+                messages.warning(request, f"{error}")
             return redirect('site_list')
     else:
         messages.warning(request, "Invalid Method")
