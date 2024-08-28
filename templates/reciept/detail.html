@@ -12,27 +12,27 @@
         <div class="card h-100">
             <div class="card-inner">
                 <div class="card-head">
-                    <h5 class="card-title">Sale: {{ sale.order_number.upper }}</h5>
+                    <h5 class="card-title">Reciept: {{ reciept }}</h5>
                 </div>
                 <ul class="nk-store-statistics">
                     <li class="item">
                         <div class="info">
                             <div class="title">Site</div>
-                            <div class="count">{{ sale.site }}</div>
+                            <div class="count">{{ reciept.site }}</div>
                         </div>
                         <em class="icon ni ni-map-pin"></em>
                     </li>
                     <li class="item">
                         <div class="info">
                             <div class="title">Product</div>
-                            <div class="count">${{ sale.product }}</div>
+                            <div class="count">{{ reciept.stock }}</div>
                         </div>
                         <em class="icon bg-primary-dim ni ni-bag"></em>
                     </li>
                     <li class="item">
                         <div class="info">
                             <div class="title">Quantity</div>
-                            <div class="count">{{ reci.quantity  }}kg</div>
+                            <div class="count">{{ reciept.quantity  }}kg</div>
                         </div>
                         <em class="icon bg-purple-dim ni ni-unarchive"></em>
                     </li>
@@ -41,7 +41,7 @@
                     <li class="item">
                         <div class="info">
                             <div class="title">Created On</div>
-                            <div class="count">{{ sale.created }}</div>
+                            <div class="count">{{ reciept.created }}</div>
                         </div>
                         <em class="icon bg-purple-dim ni ni-clock"></em>
                     </li>
@@ -74,29 +74,7 @@
             </div><!-- .card -->
         </div>
     </div>
-    <div class="row g-gs my-1">
-        <div class="col-xxl-12 ">
-            <div class="card">
-                <div class="nk-ecwg nk-ecwg3">
-                    <div class="card-inner pb-0">
-                        <div class="card-title-group">
-                            <div class="card-title">
-                                <h6 class="title">Total Sale Cost</h6>
-                            </div>
-                        </div>
-                        <div class="data">
-                            <div class="data-group">
-                                <div class="amount">${{ sale.total_cost|format_amount }} </div>
-                                </div>
-                        </div>
-                    </div><!-- .card-inner -->
-                    <div class="nk-ecwg3-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                        <canvas class="ecommerce-line-chart-s1 chartjs-render-monitor" id="totalOrders" width="988" height="132" style="display: block; height: 66px; width: 494px;"></canvas>
-                    </div>
-                </div><!-- .nk-ecwg -->
-            </div><!-- .card -->
-        </div>
-    </div>
+    
     </div>
 </div>
 </div>

@@ -1,6 +1,6 @@
 DJANGO_SECRET_KEY="django-insecure-c0y7^zo53cwo$0!4(7ife!=%$46wk=6*)g$rgivz41uncm%z@)"
 DEBUG=True
-
+FERNET_KEY = ""
 MONGO_DB_PSW_SECRET_KEY=""
 
 USE_MYSQL = False
