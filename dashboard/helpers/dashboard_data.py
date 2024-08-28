@@ -176,23 +176,45 @@ class DashboardData:
     
     
     def get_all_sites_remaining_stock(self):
+        data = []
+        sites = self.user.company.sites.all()
+    
+        for site in sites:
+            remaining_stock = Stock.objects.filter(site=site).aggregate(Sum('quantity'))['quantity__sum'] or 0
+            data.append({'site':site, 'remaining_stock':f"{remaining_stock}/{site.capacity}", 'remaining_stock_percentage':round(remaining_stock/site.capacity*100)})
+        return data
+    
+    
+    def get_all_sites_sales_bar_graph_totals(self):
         return {}
     
-    
-    def get_all_sites_total_stock_sales(self):
+    def get_all_site_sales_line_graph_monthly_totals(self):
         return {}
-    
-    
-    def get_all_sites_requisitions(self):
-        return {}
-    
-    
-    def get_alll_sites_sales_totals(self):
-        return {}
-    
     def get_company_data(self):
+        total_sales = 0
+        sites = self.user.company.sites.all()
+        for site in sites:
+            total_sales += Transaction.objects.filter(site=site).aggregate(
+                total_sales=Sum(F('quantity') * F('unit_cost'))
+            )['total_sales'] * site.stock.first().price or 0
+        
         return {
             'company': self.user.company,
-            'capacity': sum(site.capacity for site in self.user.company.sites.all())
+            'capacity': sum(site.capacity for site in self.user.company.sites.all()),
+            'total_sales': total_sales,
+            'monthly_average':total_sales / 12,
+            'weekly_average':total_sales / 52,
+            'daily_average':total_sales / 365,
         }
-    
+
+
+    def get_company_site_stats(self):
+        sites = self.user.company.sites.all()
+        data = []
+        total_quantity = 0
+        for site in sites:
+                total_quantity += Transaction.objects.filter(site=site).aggregate(
+                    total_quantity=Sum(F('quantity') * F('unit_cost'))
+                )['total_quantity'] 
+                data.append({'site':site, 'total_requisitions':site.requisitions.all().count(),'total_sales':total_quantity* site.stock.first().price or 0, 'total_quantity':total_quantity })
+        return data

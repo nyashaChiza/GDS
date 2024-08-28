@@ -48,54 +48,25 @@
                                 </div>
                                 <div class="card-inner pt-0">
                                     <ul class="gy-4">
+                                        {% for data in dashboard_data.get_all_sites_remaining_stock %}
                                         <li class="border-bottom border-0 border-dashed">
                                             <div class="mb-1">
-                                                <span class="fs-2 lh-1 mb-1 text-head">85.6kg</span>
+                                                <span class="fs-2 lh-1 mb-1 text-head">{{ data.remaining_stock }}kg</span>
                                                
                                             </div>
                                             <div class="align-center">
-                                                <div class="small text-primary me-2">54%</div>
+                                                <div class="small text-primary me-2">{{ data.remaining_stock_percentage }}%</div>
                                                 <div class="progress progress-md rounded-pill w-100 bg-primary-dim">
-                                                    <div class="progress-bar bg-success rounded-pill" data-progress="54" style="width: 54%;"></div>
+                                                    <div class="progress-bar bg-{% if data.remaining_stock_percentage > 50%}success{% else %}warning{% endif %} rounded-pill" data-progress="{{ data.remaining_stock_percentage }}" style="width: {{ data.remaining_stock_percentage }}%;"></div>
                                                 </div>
                                                 <div class="dropdown ms-3">
-                                                    <span class=" sub-text" >Site Name</span>
+                                                    <span class=" sub-text" >{{ data.site }}</span>
                                                  
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="border-bottom border-0 border-dashed">
-                                            <div class="mb-1">
-                                                <span class="fs-2 lh-1 mb-1 text-head">85.6kg</span>
-                                               
-                                            </div>
-                                            <div class="align-center">
-                                                <div class="small text-primary me-2">54%</div>
-                                                <div class="progress progress-md rounded-pill w-100 bg-primary-dim">
-                                                    <div class="progress-bar bg-success rounded-pill" data-progress="54" style="width: 54%;"></div>
-                                                </div>
-                                                <div class="dropdown ms-3">
-                                                    <span class=" sub-text" >Site Name</span>
-                                                 
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="border-bottom border-0 border-dashed">
-                                            <div class="mb-1">
-                                                <span class="fs-2 lh-1 mb-1 text-head">85.6kg</span>
-                                               
-                                            </div>
-                                            <div class="align-center">
-                                                <div class="small text-primary me-2">54%</div>
-                                                <div class="progress progress-md rounded-pill w-100 bg-primary-dim">
-                                                    <div class="progress-bar bg-success rounded-pill" data-progress="54" style="width: 54%;"></div>
-                                                </div>
-                                                <div class="dropdown ms-3">
-                                                    <span class=" sub-text" >Site Name</span>
-                                                 
-                                                </div>
-                                            </div>
-                                        </li><!-- li -->
+                                        {% endfor %}
+                                        <!-- li -->
                                     </ul>
                                 </div>
                             </div><!-- .card -->
@@ -111,33 +82,33 @@
                                     </div>
                                 </div>
                                 <div class="nk-tb-list is-loose">
+                                    {% for data in dashboard_data.get_company_site_stats %}
                                     <div class="nk-tb-item nk-tb-head">
                                         <div class="nk-tb-col"><span>Site</span></div>
+                                        <div class="nk-tb-col text-end"><span>Requisitions</span></div>
                                         <div class="nk-tb-col text-end"><span>Quantity</span></div>
-                                        <div class="nk-tb-col"><span>Users</span></div>
                                         <div class="nk-tb-col tb-col-sm text-end"><span>Amount</span></div>
                                     </div><!-- .nk-tb-head -->
                                     <div class="nk-tb-item">
                                         <div class="nk-tb-col">
                                             <div class="icon-text">
                                                 <em class="icon ni ni-map-pin"></em>
-                                                <span class="tb-lead">Google Chrome</span>
+                                                <span class="tb-lead">{{ data.site }}</span>
                                             </div>
                                         </div>
                                         <div class="nk-tb-col text-end">
-                                            <span class="tb-sub tb-amount"><span>1,641</span></span>
+                                            <span class="tb-sub tb-amount"><span>{{ data.total_requisitions }}</span></span>
                                         </div>
-                                        <div class="nk-tb-col">
-                                            <div class="progress progress-md progress-alt bg-transparent">
-                                                <div class="progress-bar" data-progress="72.84" style="width: 72.84%;"></div>
-                                                <div class="progress-amount">72.84%</div>
-                                            </div>
+                                        
+                                        <div class="nk-tb-col text-end">
+                                            <span class="tb-sub tb-amount"><span>{{ data.total_quantity }}kg</span></span>
                                         </div>
+                                        
                                         <div class="nk-tb-col tb-col-sm text-end">
-                                            <span class="tb-sub">22.62%</span>
+                                            <span class="tb-sub">${{ data.total_sales }}</span>
                                         </div>
                                     </div><!-- .nk-tb-item -->
-                                    
+                                    {% endfor %}
                                 </div><!-- .nk-tb-list -->
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -170,7 +141,7 @@
                                         <li class="item">
                                             <div class="info">
                                                 <div class="title">Total Sales</div>
-                                                <div class="count">{{ dashboard_data.get_stock_data.total_requisitions }}</div>
+                                                <div class="count">${{ dashboard_data.get_company_data.total_sales }}</div>
                                             </div>
                                             <em class="icon bg-purple-dim ni ni-truck"></em>
                                         </li>
@@ -209,17 +180,17 @@
                                         <div class="data-group">
                                             <div class="data">
                                                 <div class="title">Monthly</div>
-                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.monthly_average|format_amount  }}</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_company_data.monthly_average|format_amount  }}</div>
                                                
                                             </div>
                                             <div class="data">
                                                 <div class="title">Weekly</div>
-                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.weekly_average|format_amount  }}</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_company_data.weekly_average|format_amount  }}</div>
                                                 
                                             </div>
                                             <div class="data">
                                                 <div class="title">Daily (Avg)</div>
-                                                <div class="amount amount-sm">${{ dashboard_data.get_sales_plot_data.daily_average|format_amount  }}</div>
+                                                <div class="amount amount-sm">${{ dashboard_data.get_company_data.daily_average|format_amount  }}</div>
                                                
                                             </div>
                                         </div>

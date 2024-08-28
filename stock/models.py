@@ -25,7 +25,7 @@ class Stock(models.Model):
         return f"{self.name}"
     
 class Reciept(models.Model):
-    site = models.ForeignKey('accounts.Site', on_delete=models.SET_NULL, null=True, blank=True)
+    site = models.ForeignKey('accounts.Site', on_delete=models.SET_NULL, null=True, blank=True, related_name='requisitions')
     quantity = models.PositiveIntegerField()
     stock = models.ForeignKey(Stock, related_name='reciepts', on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
