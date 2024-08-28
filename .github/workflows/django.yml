@@ -47,4 +47,4 @@ jobs:
           EMAIL_HOST_PASSWORD: "@l"
           EMAIL_USE_TLS: True
           DEFAULT_RECIPIENT: "n"
-          FERNET_KEY: "kkgkugk"
+          FERNET_KEY: "g8Axb5a090hDBAv2N9AFW6btpONavFqLIruakUEGKtc="
