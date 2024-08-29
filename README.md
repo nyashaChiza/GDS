@@ -1,11 +1,11 @@
 
-# Stock Dispensary Management System
+# Stock Management System
 
 The Stock Dispensary Management System is a web application developed using Django. It provides a comprehensive solution for managing Stock inventory, tracking customer transactions, forecasting sales, and facilitating communication within the dispensary.
 
 ## Features
 
-- Add and manage Stock stock with details like name, quantity, price, and supplier information.
+- Add and manage Stock with details like name, quantity, price, and supplier information.
 - Record customer transactions including Stock purchased, quantity, payment method, and total amount.
 - Generate sales forecasts based on historical data and projected revenue.
 - Receive stock alerts when the Stock stock reaches a predefined threshold.
