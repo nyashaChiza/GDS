@@ -13,7 +13,7 @@ The Stock Dispensary Management System is a web application developed using Djan
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/your-username/Stock-dispensary-management-system.git`
+1. Clone the repository: `git clone https://github.com/nyashaChiza/GDS.git`
 2. Install the required dependencies: `pip install -r requirements.txt`
 3. Run database migrations: `python manage.py migrate`
 4. Start the development server: `python manage.py runserver`
